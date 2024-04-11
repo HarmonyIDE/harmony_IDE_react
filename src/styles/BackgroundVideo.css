@@ -1,0 +1,63 @@
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .video-container video {
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .content {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+
+  .signup-button {
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: black;
+    color: #00FF00;
+    border: 1px solid #00FF00;
+    cursor: pointer;
+    transition: all 0.5s;
+    outline: none;
+    position: absolute;
+    top: 70%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+  }
+  .login {
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: black;
+    color: #00FF00;
+    border: 1px solid #00FF00;
+    cursor: pointer;
+    transition: all 0.5s;
+    outline: none;
+    position: absolute;
+    top: 70%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .content button:hover {
+    background-color: #00FF00;
+    color: black;
+    border: 1px solid black;
+  }
