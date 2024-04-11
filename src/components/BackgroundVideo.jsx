@@ -13,6 +13,7 @@ const BackgroundVideo = () => {
       </video>
       <div className="content">
         <h1>Welcome to Harmony IDE</h1>
+        <button className="SQL" onClick={() => navigate('/editor')}>SQL</button>
         <button className="login" onClick={() => navigate('/login')}>Login</button>
         <button className="signup-button" onClick={() => navigate('/login')}>Sign</button>
       </div>
