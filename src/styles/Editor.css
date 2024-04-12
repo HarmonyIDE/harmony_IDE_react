@@ -1,5 +1,39 @@
-html, body, #root {
+/* html, body, #root {
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: black;
   }
+.editor-container {
+  width: 40vw;
+  height: 50vh;
+  margin-top: 3%;
+  margin-left: 1px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+} */
+/* App.css */
+.editor {
+  margin-top: 3%;
+  margin-left: 3%;
+  border: 3px solid #28C70E;
+}
+
+.controls {
+  display: flex;
+  margin-left: 3%;
+  /* justify-content: center; */
+  margin-top: 20px;
+}
+
+.theme-selector {
+  margin-right: 20px;
+}
+
+.run-button {
+  background-color: #28C70E;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
