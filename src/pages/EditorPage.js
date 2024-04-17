@@ -8,7 +8,7 @@ import FileTreeBar from "../components/FileTreeBar";
 
 const MainBox = styled.div`
   height: 90%;
-  width: 100%;g
+  width: 100%;
   background-color: #0f0a19;
   color: gray;
   display: flex;

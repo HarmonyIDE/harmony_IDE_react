@@ -11,8 +11,8 @@ const Button = styled.button`
   color: #166c08;
   border: none;
   &:hover {
-    border-right: 1px solid grey;
-    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid gray;
   }
 `;
 
@@ -28,16 +28,13 @@ const NavigationBar = () => {
       style={{
         width: "100%",
         height: "8%",
-
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         textAlign: "center",
-
-        backgroundImage: "linear-gradient(to bottom, #0fc70e, #136107)",
         boxSizing: "border-box",
-        background: "black",
         border: "2px solid green",
+        backgroundImage: "linear-gradient(to bottom, #0fc70e, #136107)",
       }}
     >
       <div
