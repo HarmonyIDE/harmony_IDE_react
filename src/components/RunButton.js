@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { executeCode } from "../api";
 
 const rotate = keyframes`
@@ -13,19 +13,25 @@ const rotate = keyframes`
 `;
 
 const Button = styled.button`
-  width: 200px;
+  box-sizing: border-box;
+  width: 150px;
   margin-bottom: 4px;
   padding: 8px 16px;
   font-size: 16px;
   border-radius: 4px;
   cursor: pointer;
-  background-color: transparent;
-  color: green;
-  border: 2px solid green;
+  background-color: #166c08;
+  color: #28c70e;
+  border: 2px solid #166c08;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
+  background-image: linear-gradient(to right, #0fc70e, #136107);
+  &:hover {
+    background-color: #0fc70e;
+    transition: filter 1s ease;
+    border: 2px solid #0fc70e;
+  }
   ${({ isLoading }) =>
     isLoading &&
     css`
@@ -34,7 +40,6 @@ const Button = styled.button`
 
       &:after {
         content: "";
-        margin-left: 10px;
         border: 3px solid rgba(255, 255, 255, 0.5);
         border-top: 3px solid white; // Make the loading indicator more visible
         border-radius: 50%;
@@ -45,7 +50,19 @@ const Button = styled.button`
     `}
 `;
 
-const RunButton = ({editorRef, language, setOutput, isLoading, setIsLoading, setIsError}) => {
+const RunIcon = styled.img`
+  width: 20%;
+  height: 20%;
+`;
+
+const RunButton = ({
+  editorRef,
+  language,
+  setConsoleOutput,
+  compileLoading,
+  setCompileLoading,
+  setIsError,
+}) => {
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) {
@@ -56,9 +73,9 @@ const RunButton = ({editorRef, language, setOutput, isLoading, setIsLoading, set
     }
 
     try {
-      setIsLoading(true);
+      setCompileLoading(true);
       const { run: result } = await executeCode(language, sourceCode);
-      setOutput(result.output.split("\n"));
+      setConsoleOutput(result.output.split("\n"));
       result.stderr ? setIsError(true) : setIsError(false);
     } catch (error) {
       console.error(error);
@@ -66,14 +83,17 @@ const RunButton = ({editorRef, language, setOutput, isLoading, setIsLoading, set
         position: "top-right",
       });
     } finally {
-      setIsLoading(false);
+      setCompileLoading(false);
     }
   };
   return (
-    <Button onClick={runCode} isLoading={isLoading}>
-      Run Code
+    <Button onClick={runCode} isLoading={compileLoading}>
+      {compileLoading ? "" : <RunIcon
+        src="https://www.svgrepo.com/show/522226/play.svg"
+        alt="Run Code"
+        isLoading={compileLoading}
+      /> }
     </Button>
-
   );
 };
 

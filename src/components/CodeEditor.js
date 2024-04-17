@@ -1,25 +1,61 @@
 import React, { useRef, useState } from "react";
 import { Editor } from "@monaco-editor/react";
-import LanguageSelector from "./LanguageSelector";
+import LanguageSelector from "./LanguageSelectButton";
 import { CODE_SNIPPET } from "../constants";
 import styled from "styled-components";
-import Output from "./Output";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import RunButton from "./RunButton";
 import Console from "./Console";
+import GptButton from "./GptButton";
+
+const EditorConsoleBox = styled.div`
+  position: relative;
+  width: 60%;
+  padding: 5px;
+  border: 1px solid purple;
+  box-sizing: border-box;
+`;
 
 const VStack = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  border: 1px solid grey;
+  box-sizing: border-box;
+  justify-content: center;
 `;
 
-const CodeEditor = () => {
+const EditorBox = styled.div`
+  height: 80%;
+  border: 2px solid #166c08;
+  border-radius: 4px;
+  align-content: space-between;
+  box-sizing: border-box;
+`;
+
+const Buttons = styled.div`
+  height: 20%;
+  border: 1px solid blue;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const Outputbox = styled.div`
+  height: 20%;
+  border: 1px solid yellow;
+  box-sizing: border-box;
+  padding-block: 5px;
+  `;
+
+const CodeEditor = ({ setGptOutput }) => {
   const editorRef = useRef();
   const [language, setLanguage] = useState("javascript");
   const [value, setValue] = useState("");
-  const [output, setOutput] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [consoleOutput, setConsoleOutput] = useState(null);
+  const [compileLoading, setCompileLoading] = useState(false);
+  const [gptLoading, setGptLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   //처음 에디터 컴포넌트가 렌더링될 때(즉, 마운트될 때) 에디터에 바로 포커싱되도록 설정
@@ -36,13 +72,13 @@ const CodeEditor = () => {
   };
 
   return (
-    <div style={{ position: "relative", width: "50vw"}}>
+    <EditorConsoleBox>
       <VStack>
-        <div>
+        <EditorBox>
           {/* Monaco-editor 라이브러리의 Editor 컴포넌트 사용으로 쉽게 에디터 생성 */}
           <Editor
             width="100%"
-            height="60vh"
+            height="80%"
             theme="vs-dark"
             language={language}
             defaultValue={CODE_SNIPPET[language]}
@@ -50,25 +86,30 @@ const CodeEditor = () => {
             onMount={onMount}
             onChange={(value) => setValue(value)}
           />
-          <div style={{display: "flex", justifyContent:"space-between", padding:"10px"}}>
+          <Buttons>
             <LanguageSelector language={language} onSelect={onSelect} />
+            <GptButton 
+            editorRef={editorRef} 
+            setGptOutput={setGptOutput}
+            gptLoading={gptLoading}
+            setGptLoading={setGptLoading} />
             <RunButton
               editorRef={editorRef}
               language={language}
-              setOutput={setOutput}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
+              setConsoleOutput={setConsoleOutput}
+              compileLoading={compileLoading}
+              setCompileLoading={setCompileLoading}
               setIsError={setIsError}
             />
-          </div>
+          </Buttons>
           {/* 언어 선택 버튼은 에디터 하단 */}
-        </div>
-        <div style={{ height: "40vh" }}>
-          <Console output={output} isError={isError} />
-        </div>
-        <ToastContainer />
+        </EditorBox>
+        <Outputbox>
+          <Console consoleOutput={consoleOutput} isError={isError} />
+        </Outputbox>
       </VStack>
-    </div>
+      <ToastContainer />
+    </EditorConsoleBox>
   );
 };
 

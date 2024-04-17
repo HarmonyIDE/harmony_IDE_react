@@ -9,11 +9,6 @@ const StyledBox = styled.div`
   margin-bottom: 4px;
 `;
 
-const StyledText = styled.span`
-  margin-bottom: 2px;
-  font-size: large;
-`;
-
 const Menu = styled.div`
   position: relative;
   display: inline-block;
@@ -39,46 +34,50 @@ const Menu = styled.div`
 //     `}
 // `;
 
-const MenuButton = styled.button`
+const LanguageButton = styled.button`
   padding: 10px 10px;
   width: 150px;
-  background-color: #166c08;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
+  background-color: transparent;
+  color: #28C70E;
+  cursor: pointer;
+  border-inline: 2px solid #166c08;
+  border-bottom: 2px solid #166c08;
+  border-top: ${({ open }) => (open ? "none" : "2px solid #166c08")};
+  border-radius: ${({ open }) => (open ? "0px 0px 4px 4px" : "4px")};
+  box-sizing: border-box; 
 `;
 
 //리스트 토글링이 버튼 상단으로 되도록 bottom 값 설정
-const MenuList = styled.ul`
-  background-color: #110c1b;
+const LanguageList = styled.ul`
+  background-color: transparent;
   position: absolute;
   z-index: 2;
   bottom: 50%;
   padding: 0px;
   width: 150px;
-  border-inline: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  border-radius: 5px;
+  border-inline: 2px solid #166c08;
+  border-top: 2px solid #166c08;
+  border-radius: 4px 4px 0px 0px;
+  box-sizing: border-box;
+
   display: ${({ open }) => (open ? "block" : "none")};
 `;
 
-const MenuItem = styled.li`
+const LanguageItem = styled.li`
   list-style-type: none;
   padding: 10px;
-  color: ${({isSelected}) => (isSelected ? "yellow" : "white")};
-  background-color: ${({isSelected}) => (isSelected ? "gray" : "tranparent")};
+  color: white;
+  background-color: ${({ isSelected }) => (isSelected ? "gray" : "tranparent")};
   opacity: 0.5;
-
+  border: none;
   &:hover {
-    color: yellow;
+    color: white;
     background-color: gray;
   }
 `;
 
-
-const LanguageSelector = ({ language, onSelect }) => {
+const LanguageSelectButton = ({ language, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
-  //const [selectedOption, setSelectedOption] = useState("javascript"); // 초기값 설정
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -86,13 +85,12 @@ const LanguageSelector = ({ language, onSelect }) => {
 
   return (
     <StyledBox>
-      <StyledText></StyledText>
-      {/* <Menu isLazy={true}> */}
+      {/* 렌더링 지연 처리해주지 않으면 첫 렌더링에서 경고*/}
       <Menu>
-        <MenuButton onClick={toggleDropdown}>{language}</MenuButton>
-        <MenuList open={isOpen}>
+        <LanguageButton onClick={toggleDropdown} open={isOpen}>{language}</LanguageButton>
+        <LanguageList open={isOpen}>
           {languages.map(([lang, version]) => (
-            <MenuItem
+            <LanguageItem
               key={lang}
               isSelected={lang === language}
               onClick={() => {
@@ -105,12 +103,12 @@ const LanguageSelector = ({ language, onSelect }) => {
               <span style={{ color: "#C6CFC4", fontSize: "small" }}>
                 {version}
               </span>
-            </MenuItem>
+            </LanguageItem>
           ))}
-        </MenuList>
+        </LanguageList>
       </Menu>
     </StyledBox>
   );
 };
 
-export default LanguageSelector;
+export default LanguageSelectButton;
