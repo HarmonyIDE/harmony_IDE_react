@@ -50,10 +50,9 @@ const Outputbox = styled.div`
   padding-block: 5px;
 `;
 
-const CodeEditor = ({ setGptOutput, darkmode }) => {
+const CodeEditor = ({ code, setCode, language, setLanguage, setGptOutput, darkmode }) => {
   const editorRef = useRef();
-  const [language, setLanguage] = useState("javascript");
-  const [value, setValue] = useState("");
+  //const [value, setValue] = useState("");
   const [consoleOutput, setConsoleOutput] = useState(null);
   const [compileLoading, setCompileLoading] = useState(false);
   const [gptLoading, setGptLoading] = useState(false);
@@ -69,7 +68,7 @@ const CodeEditor = ({ setGptOutput, darkmode }) => {
   //토글 리스트에서 언어 선택 => language 상태 업데이트, value 상태(에디터에 띄울 초기값(snippet 코드)
   const onSelect = (language) => {
     setLanguage(language);
-    setValue(CODE_SNIPPET[language]);
+    setCode(CODE_SNIPPET[language]);
   };
 
   return (
@@ -83,9 +82,9 @@ const CodeEditor = ({ setGptOutput, darkmode }) => {
             theme={darkmode ? "vs-dark" : "light"}
             language={language}
             defaultValue={CODE_SNIPPET[language]}
-            value={value}
+            value={code}
             onMount={onMount}
-            onChange={(value) => setValue(value)}
+            onChange={(value) => setCode(value)}
           />
         </EditorBox>
 

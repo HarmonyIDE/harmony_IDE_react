@@ -47,7 +47,7 @@ const Console = ({ consoleOutput, isError, darkmode }) => {
     <Consolebox isError={isError} darkmode={darkmode}>
       {consoleOutput
         ? consoleOutput.map((line, i) => <p key={i}>{line}</p>)
-        : 'Click  "Run Code" to see the Output here'}
+        : ''}
     </Consolebox>
   );
 };

@@ -50,11 +50,22 @@ const Icon = styled.img`
 `;
 
 
-const NavigationBar = ({darkmode, setDarkmode}) => {
+const NavigationBar = ({code, darkmode, setDarkmode}) => {
+
   const onClick = useCallback(e => {
     const change = !darkmode;
     setDarkmode(change);
   })
+
+  const downloadTxtFile = () => {
+    const element = document.createElement("a");
+    const file = new Blob([code], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "myData.js";
+    document.body.appendChild(element);
+    element.click();
+  };
+
   return (
     <NaviagtionBarBox darkmode={darkmode}>
       <ButtonSet
@@ -68,7 +79,7 @@ const NavigationBar = ({darkmode, setDarkmode}) => {
             alt="Home"
           />
         </Button>
-        <Button>
+        <Button onClick={downloadTxtFile}>
           <Icon
             src="https://www.svgrepo.com/show/532808/folder-arrow-down.svg"
             alt="Save File"

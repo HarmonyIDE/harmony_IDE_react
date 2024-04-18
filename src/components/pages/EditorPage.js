@@ -5,6 +5,7 @@ import NavigationBar from "../NavigationBar";
 import CodeReviewer from "../CodeReviewer";
 import { ToastContainer } from "react-toastify";
 import FileTreeBar from "../FileTreeBar";
+import { CODE_SNIPPET } from "../../constants";
 
 const MainBox = styled.div`
   height: 90%;
@@ -20,12 +21,17 @@ const MainBox = styled.div`
 function EditorPage() {
   const [gptOutput, setGptOutput] = useState(null);
   const [darkmode, setDarkmode] = useState(false);
+  const [language, setLanguage] = useState("javascript");
+  const [code, setCode] = useState(CODE_SNIPPET[language]);
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <NavigationBar darkmode={darkmode} setDarkmode={setDarkmode}/>
+      <NavigationBar code={code} darkmode={darkmode} setDarkmode={setDarkmode}/>
       <MainBox darkmode={darkmode}>
         <FileTreeBar darkmode={darkmode}/>
-        <CodeEditor setGptOutput={setGptOutput} darkmode={darkmode}/>
+        <CodeEditor code={code} setCode={setCode}
+        language={language} setLanguage={setLanguage}
+        setGptOutput={setGptOutput} darkmode={darkmode}/>
         <CodeReviewer gptOutput={gptOutput} darkmode={darkmode}/>
       </MainBox>
     </div>
