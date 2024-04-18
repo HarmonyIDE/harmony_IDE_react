@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import { LANGUAGE_VERSIONS } from "../constants";
-import styled, { css } from "styled-components";
+import { LANGUAGE_VERSIONS } from "../../constants";
+import styled from "styled-components";
 
 const languages = Object.entries(LANGUAGE_VERSIONS);
-
-const StyledBox = styled.div`
-  margin-left: 2px;
-  margin-bottom: 4px;
-`;
 
 const Menu = styled.div`
   position: relative;
@@ -35,16 +30,22 @@ const Menu = styled.div`
 // `;
 
 const LanguageButton = styled.button`
-  padding: 10px 10px;
+  box-sizing: border-box;
   width: 150px;
-  background-color: transparent;
-  color: #28C70E;
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  background-image: ${({ open }) => (open ? "linear-gradient(to right, white, gray)" : "linear-gradient(to right, #0fc70e, #136107)")};
   border-inline: 2px solid #166c08;
   border-bottom: 2px solid #166c08;
   border-top: ${({ open }) => (open ? "none" : "2px solid #166c08")};
   border-radius: ${({ open }) => (open ? "0px 0px 4px 4px" : "4px")};
-  box-sizing: border-box; 
+  box-sizing: border-box;
 `;
 
 //리스트 토글링이 버튼 상단으로 되도록 bottom 값 설정
@@ -66,9 +67,10 @@ const LanguageList = styled.ul`
 const LanguageItem = styled.li`
   list-style-type: none;
   padding: 10px;
-  color: white;
+  color: ${({ darkmode }) => (darkmode ? "#C6CFC4" : "black")};
+
   background-color: ${({ isSelected }) => (isSelected ? "gray" : "tranparent")};
-  opacity: 0.5;
+  opacity: 0.6;
   border: none;
   &:hover {
     color: white;
@@ -76,7 +78,7 @@ const LanguageItem = styled.li`
   }
 `;
 
-const LanguageSelectButton = ({ language, onSelect }) => {
+const LanguageSelectButton = ({ language, onSelect, darkmode}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -84,15 +86,17 @@ const LanguageSelectButton = ({ language, onSelect }) => {
   };
 
   return (
-    <StyledBox>
-      {/* 렌더링 지연 처리해주지 않으면 첫 렌더링에서 경고*/}
       <Menu>
-        <LanguageButton onClick={toggleDropdown} open={isOpen}>{language}</LanguageButton>
-        <LanguageList open={isOpen}>
+        {/* 렌더링 지연 처리해주지 않으면 첫 렌더링에서 경고*/}
+        <LanguageButton onClick={toggleDropdown} open={isOpen}>
+          {language}
+        </LanguageButton>
+        <LanguageList open={isOpen} darkmode={darkmode}>
           {languages.map(([lang, version]) => (
             <LanguageItem
               key={lang}
               isSelected={lang === language}
+              darkmode={darkmode}
               onClick={() => {
                 onSelect(lang);
                 setIsOpen(!isOpen);
@@ -100,14 +104,13 @@ const LanguageSelectButton = ({ language, onSelect }) => {
             >
               {lang}
               &nbsp;
-              <span style={{ color: "#C6CFC4", fontSize: "small" }}>
+              <span style={{ color: darkmode? "#BFC2BF" : "black", fontSize: "small" }}>
                 {version}
               </span>
             </LanguageItem>
           ))}
         </LanguageList>
       </Menu>
-    </StyledBox>
   );
 };
 

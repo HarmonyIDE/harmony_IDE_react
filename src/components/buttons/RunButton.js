@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
 import { toast } from "react-toastify";
-import { executeCode } from "../api";
+import { executeCode } from "../../api";
 
 const rotate = keyframes`
   from {
@@ -15,7 +15,6 @@ const rotate = keyframes`
 const Button = styled.button`
   box-sizing: border-box;
   width: 150px;
-  margin-bottom: 4px;
   padding: 8px 16px;
   font-size: 16px;
   border-radius: 4px;
@@ -88,11 +87,7 @@ const RunButton = ({
   };
   return (
     <Button onClick={runCode} isLoading={compileLoading}>
-      {compileLoading ? "" : <RunIcon
-        src="https://www.svgrepo.com/show/522226/play.svg"
-        alt="Run Code"
-        isLoading={compileLoading}
-      /> }
+      {compileLoading ? "" : <RunIcon src="https://www.svgrepo.com/show/522226/play.svg" alt="Run Code" isLoading={compileLoading} /> }
     </Button>
   );
 };

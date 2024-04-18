@@ -3,8 +3,7 @@ import styled from "styled-components";
 
 const Consolebox = styled.div`
   height: 100%;
-  padding: 5px;
-
+  padding-inline: 20px;
   border: 1px solid #166c08;
   border-radius: 4px;
 
@@ -12,9 +11,9 @@ const Consolebox = styled.div`
   
   font-size: 12px;
   font-family: Menlo, Monaco, monospace;
-  background-color: #242222;
-  color: ${({ isError }) =>
-    isError ? "red" : "inherit"}; /* 수정: 색상이 아닌 경우 상속받음 */
+  background-color: ${({ darkmode }) => (darkmode ? "black" : "white")};
+  color: ${({ isError, darkmode}) =>
+    isError ? "red" : darkmode? "white" : "black"}; /* 수정: 색상이 아닌 경우 상속받음 */
   border-color: ${({ isError }) => (isError ? "red" : "#166c08")};
   overflow-y: auto;
 
@@ -43,9 +42,9 @@ const Consolebox = styled.div`
   }
 `;
 
-const Console = ({ consoleOutput, isError }) => {
+const Console = ({ consoleOutput, isError, darkmode }) => {
   return (
-    <Consolebox isError={isError}>
+    <Consolebox isError={isError} darkmode={darkmode}>
       {consoleOutput
         ? consoleOutput.map((line, i) => <p key={i}>{line}</p>)
         : 'Click  "Run Code" to see the Output here'}

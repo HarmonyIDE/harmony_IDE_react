@@ -1,19 +1,46 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
+
+const NaviagtionBarBox = styled.div`
+  width: 100%;
+  height: 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  border: 2px solid green;
+  background-image: ${({ darkmode }) => (darkmode ? "linear-gradient(to bottom, #0fc70e, #136107)" : "linear-gradient(to bottom, #B6F2AD, #136107)")};
+`;
+
+const ButtonSet = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
 
 const Button = styled.button`
   width: 10%;
-  height: 100%;
+  height: 90%;
   box-sizing: border-box;
 
   background-color: transparent;
   cursor: pointer;
   color: #166c08;
-  border: none;
+  border: none;    
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
   &:hover {
-    border-right: 1px solid black;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2);
+  }
+  &:active {
+    box-shadow: none;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid gray;
     border-bottom: 1px solid gray;
   }
+
 `;
 
 const Icon = styled.img`
@@ -22,23 +49,18 @@ const Icon = styled.img`
   box-sizing: border-box;
 `;
 
-const NavigationBar = () => {
+
+const NavigationBar = ({darkmode, setDarkmode}) => {
+  const onClick = useCallback(e => {
+    const change = !darkmode;
+    setDarkmode(change);
+  })
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "8%",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        textAlign: "center",
-        boxSizing: "border-box",
-        border: "2px solid green",
-        backgroundImage: "linear-gradient(to bottom, #0fc70e, #136107)",
-      }}
-    >
-      <div
-        style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-start" }}
+    <NaviagtionBarBox darkmode={darkmode}>
+      <ButtonSet
+        style={{
+          justifyContent: "flex-start",
+        }}
       >
         <Button>
           <Icon
@@ -52,15 +74,17 @@ const NavigationBar = () => {
             alt="Save File"
           />
         </Button>
-        <Button>
+        <Button onClick={onClick}>
           <Icon
             src="https://www.svgrepo.com/show/532889/sun.svg"
             alt="Change Theme"
           />
         </Button>
-      </div>
-      <div
-        style={{ width: "100%", height: "100%", display: "flex", justifyContent: "flex-end" }}
+      </ButtonSet>
+      <ButtonSet
+        style={{
+          justifyContent: "flex-end",
+        }}
       >
         <Button>
           <Icon
@@ -70,15 +94,18 @@ const NavigationBar = () => {
         </Button>
         <Button>
           <Icon
-            src="https://www.svgrepo.com/show/507879/user-circle.svg"
+            src="https://www.svgrepo.com/show/532362/user.svg"
             alt="User Info"
           />
         </Button>
         <Button>
-          <Icon src="https://www.svgrepo.com/show/520828/logout.svg" alt="Logout" />
+          <Icon
+            src="https://www.svgrepo.com/show/520828/logout.svg"
+            alt="Logout"
+          />
         </Button>
-      </div>
-    </div>
+      </ButtonSet>
+    </NaviagtionBarBox>
   );
 };
 

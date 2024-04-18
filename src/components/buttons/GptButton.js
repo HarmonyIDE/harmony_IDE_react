@@ -13,8 +13,8 @@ const rotate = keyframes`
 `;
 
 const Button = styled.button`
+  box-sizing: border-box;
   width: 150px;
-  margin-bottom: 4px;
   padding: 8px 16px;
   font-size: 16px;
   border-radius: 4px;
@@ -58,7 +58,7 @@ const GptIcon = styled.img`
 const GptButton = ({ editorRef, setGptOutput, gptLoading, setGptLoading }) => {
   const openai = new OpenAI({
     organization: "org-efXAZdAhgjdSpOnxMMM3x58I",
-    apiKey: "개인 openAI api 키 값", //지금은 직접 api 키 넣어줬지만 백으로 빼는 게 보안 가이드라인에 맞음
+    apiKey: "개인 openAI-api key", //지금은 직접 api 키 넣어줬지만 백으로 빼는 게 보안 가이드라인에 맞음
     dangerouslyAllowBrowser: true,
   });
   const runCode = async () => {

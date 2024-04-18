@@ -5,7 +5,7 @@ const ReviewerBox = styled.div`
   position: relative;
   width: 25%;
   height: 100%;
-  border: 1px solid purple;
+  // border: 1px solid purple;
   padding: 5px;
   box-sizing: border-box;
 `;
@@ -17,7 +17,8 @@ const Reviewer = styled.div`
   padding: 5px;
   white-space: pre-wrap;
   box-sizing: border-box;
-  background-color: #242222;
+  background-color: ${({ darkmode }) => (darkmode ? "#242222" : "white")};
+  color: ${({ darkmode }) => (darkmode ? "white" : "black")};
   font-family: Menlo, Monaco, monospace;
   font-size: 15px;
   overflow-y: auto;
@@ -26,10 +27,10 @@ const Reviewer = styled.div`
   }
   `;
 
-const CodeReviewer = ({ gptOutput }) => {
+const CodeReviewer = ({ gptOutput, darkmode}) => {
   return (
     <ReviewerBox>
-      <Reviewer>{gptOutput}</Reviewer>
+      <Reviewer darkmode={darkmode}>{gptOutput}</Reviewer>
     </ReviewerBox>
   );
 };
