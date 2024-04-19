@@ -26,7 +26,7 @@ function EditorPage() {
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <NavigationBar code={code} darkmode={darkmode} setDarkmode={setDarkmode}/>
+      <NavigationBar language={language} code={code} darkmode={darkmode} setDarkmode={setDarkmode}/>
       <MainBox darkmode={darkmode}>
         <FileTreeBar darkmode={darkmode}/>
         <CodeEditor code={code} setCode={setCode}

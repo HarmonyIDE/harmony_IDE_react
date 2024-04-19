@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
+import { LANGUAGE_FILENAME } from "../constants";
 
 const NaviagtionBarBox = styled.div`
   width: 100%;
@@ -50,7 +51,7 @@ const Icon = styled.img`
 `;
 
 
-const NavigationBar = ({code, darkmode, setDarkmode}) => {
+const NavigationBar = ({language, code, darkmode, setDarkmode}) => {
 
   const onClick = useCallback(e => {
     const change = !darkmode;
@@ -61,7 +62,8 @@ const NavigationBar = ({code, darkmode, setDarkmode}) => {
     const element = document.createElement("a");
     const file = new Blob([code], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "myData.js";
+    console.log(LANGUAGE_FILENAME[language]);
+    element.download = "myData." + LANGUAGE_FILENAME[language];
     document.body.appendChild(element);
     element.click();
   };

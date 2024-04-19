@@ -10,6 +10,15 @@ export const LANGUAGE_VERSIONS = {
     php: "8.2.3",
 }
 
+export const LANGUAGE_FILENAME = {
+  javascript: "js",
+  typescript: "ts",
+  python: "py",
+  java: "java",
+  csharp: "cs",
+  php: "php",
+}
+
 export const CODE_SNIPPET = {
     javascript: `\nfunction greet(name) {\n\tconsole.log("Hello, " + name + "!");\n}\n\ngreet("Alex");\n`,
     typescript: `\ntype Params = {\n\tname: string;\n}\n\nfunction greet(data: Params) {\n\tconsole.log("Hello, " + data.name + "!");\n}\n\ngreet({ name: "Alex" });\n`,

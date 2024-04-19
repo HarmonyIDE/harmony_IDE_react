@@ -1,8 +1,77 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { LoginBackGround, LoginForm, Button } from "../lib/styles/PageStyles";
+import {
+  BackGround,
+  UserInfoForm,
+  ButtonDefault,
+  Logo,
+} from "../lib/styles/PageStyles";
 import img from "../assets/CodeHarmonyLogo.png";
+import styled from "styled-components";
+
+const Block = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+  width: 80%;
+  height: 10%;
+  border: 2px solid green;
+`;
+
+const OptionalBlock = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+  width: 80%;
+  height: 7%;
+  border: none;
+  justify-content: space-between;
+`;
+
+const SocialLoginBlocks = styled.div`
+  display: flex;
+  width: 60%;
+  height: 20%;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const StyledLabel = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  backgroundcolor: black;
+  color: green;
+  box-sizing: border-box;
+  font-family: monospace;
+`;
+
+const StyledInput = styled.input`
+  outline: none;
+  color: green;
+  width: 80%;
+  height: 100%;
+  box-sizing: border-box;
+  border: none;
+  background: black;
+`;
+
+const EnterSignupButton = styled.button`
+  color: white;
+  width: 15%;
+  height: 100%;
+  fontsize: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+`;
+
+const SocialLoginButton = styled.button`
+  width: 50px;
+  height: 50px;
+`;
 
 function LoginPage() {
   const [userId, setUserId] = useState("");
@@ -42,168 +111,83 @@ function LoginPage() {
   };
 
   const handleSignUp = () => {
-    navigate(`/signup`); 
-  }
+    navigate(`/signup`);
+  };
 
   return (
-    <LoginBackGround style={{ zIndex: "-1" }}>
+    <BackGround>
       <div style={{ zIndex: "1", height: "40%" }}>
-        <img
-          src={img}
-          alt="로고"
-          style={{ width: "100%", height: "100%", background: "transparent" }}
-        />
+        <Logo src={img} alt="로고" />
       </div>
-      <LoginForm
-        style={{ zIndex: "2", width: "60%", height: "60%" }}
-        onSubmit={handleLogin}
-      >
-        <div
-          style={{
-            display: "flex",
-            marginBottom: "20px",
-            width: "80%",
-            height: "10%",
-            border: "2px solid green",
-          }}
-        >
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "20%",
-              height: "100%",
-              textAlign: "center",
-              backgroundColor: "black",
-              color: "green",
-              boxSizing: "border-box",
-              fontFamily: "monospace",
-            }}
-            htmlFor="username"
-          >
-            ID&nbsp;:
-          </label>
-          <input
-            style={{
-              outline: "none",
-              color: "green",
-              width: "80%",
-              height: "100%",
-              boxSizing: "border-box",
-              border: "none",
-              background: "black",
-            }}
+      <UserInfoForm onSubmit={handleLogin}>
+        <Block>
+          <StyledLabel htmlFor="username">ID&nbsp;:</StyledLabel>
+          <StyledInput
             id="username"
             type="text"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             required
           />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            marginBottom: "20px",
-            width: "80%",
-            height: "10%",
-            border: "2px solid green",
-          }}
-        >
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "20%",
-              height: "100%",
-              textAlign: "center",
-              backgroundColor: "black",
-              color: "green",
-              boxSizing: "border-box",
-              fontFamily: "monospace",
-            }}
-            htmlFor="password"
-          >
-            PW&nbsp;:
-          </label>
-          <input
-            style={{
-              outline: "none",
-              color: "green",
-              width: "80%",
-              height: "100%",
-              boxSizing: "border-box",
-              border: "none",
-              background: "black",
-            }}
+        </Block>
+        <Block>
+          <StyledLabel htmlFor="password">PW&nbsp;:</StyledLabel>
+          <StyledInput
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
-        <div
+        </Block>
+        <Block
           style={{
-            display: "flex",
             justifyContent: "center",
             width: "100%",
             height: "15%",
+            marginBottom: "0px",
+            border: "0px",
           }}
         >
-          <Button type="submit">Login</Button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            width: "80%",
-            height: "7%",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-          }}
-        >
+          <ButtonDefault type="submit">Login</ButtonDefault>
+        </Block>
+        <OptionalBlock>
           <div style={{ display: "flex", alignItems: "center" }}>
             <input type="checkbox" id="myCheckbox" name="myCheckbox" />
-            <label style={{ fontSize: "8px", color: "white", cursor: "pointer" }} for="myCheckbox">
+            <label
+              style={{ fontSize: "8px", color: "white", cursor: "pointer" }}
+              for="myCheckbox"
+            >
               로그인 상태 유지
             </label>
           </div>
 
-          <button onClick={handleSignUp} style={{ color: "white", width: "15%", height: "100%", fontSize: "8px", border: "none", background: "transparent", cursor: "pointer"}}>
+          <EnterSignupButton onClick={handleSignUp}>
             회원 가입
-          </button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            width: "60%",
-            height: "20%",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-        >
-          <button style={{ width: "50px", height: "50px", background: "white"}}>
+          </EnterSignupButton>
+        </OptionalBlock>
+        <SocialLoginBlocks>
+          <SocialLoginButton style={{ background: "white" }}>
             <img
               src="https://statics.goorm.io/images/social/logo/googleLogo.svg"
               alt="Google Login"
             />
-          </button>
-          <button style={{ width: "50px", height: "50px", background: "#ffcd00" }}>
+          </SocialLoginButton>
+          <SocialLoginButton style={{ background: "#ffcd00" }}>
             <img
               src="https://statics.goorm.io/images/social/logo/kakaoLogo.svg"
               alt="KaKao Login"
             />
-          </button>
-          <button style={{ width: "50px", height: "50px", background: "#00C896" }}>
-          <img
+          </SocialLoginButton>
+          <SocialLoginButton style={{ background: "#00C896" }}>
+            <img
               src="https://statics.goorm.io/images/social/logo/naverLogo.svg"
               alt="Naver Login"
             />
-          </button>
-        </div>
-      </LoginForm>
-    </LoginBackGround>
+          </SocialLoginButton>
+        </SocialLoginBlocks>
+      </UserInfoForm>
+    </BackGround>
   );
 }
 export default LoginPage;
