@@ -28,7 +28,6 @@ const Button = styled.button`
   background-image: linear-gradient(to right, #0fc70e, #136107);
 
   &:hover {
-    background-color: #0fc70e;
     transition: filter 1s ease;
     border: 2px solid #0fc70e;
   }
