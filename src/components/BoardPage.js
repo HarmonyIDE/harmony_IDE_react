@@ -1,0 +1,14 @@
+// src/components/BoardPage.js
+
+import React from 'react';
+
+const BoardPage = () => {
+  return (
+    <div>
+      <h1>Board Page</h1>
+      {/* 게시판 관련 컨텐츠 */}
+    </div>
+  );
+}
+
+export default BoardPage;
