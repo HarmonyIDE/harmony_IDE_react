@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { LANGUAGE_FILENAME } from "../constants";
-
+import { useNavigate } from 'react-router-dom';
 const NaviagtionBarBox = styled.div`
   width: 100%;
   height: 8%;
@@ -51,7 +51,12 @@ const Icon = styled.img`
 `;
 
 
-const NavigationBar = ({language, code, darkmode, setDarkmode}) => {
+const NavigationBar = ({code, darkmode, setDarkmode}) => {
+  const navigate = useNavigate(); // useHistory를 useNavigate로 변경
+
+  const goToBoard = useCallback(() => {
+    navigate('/board'); // navigate 함수 사용
+  }, [navigate]);
 
   const onClick = useCallback(e => {
     const change = !darkmode;
@@ -62,8 +67,7 @@ const NavigationBar = ({language, code, darkmode, setDarkmode}) => {
     const element = document.createElement("a");
     const file = new Blob([code], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    console.log(LANGUAGE_FILENAME[language]);
-    element.download = "myData." + LANGUAGE_FILENAME[language];
+    element.download = "myData.js";
     document.body.appendChild(element);
     element.click();
   };
@@ -99,7 +103,7 @@ const NavigationBar = ({language, code, darkmode, setDarkmode}) => {
           justifyContent: "flex-end",
         }}
       >
-        <Button>
+        <Button onClick={goToBoard}>
           <Icon
             src="https://www.svgrepo.com/show/532228/table-list.svg"
             alt="Board"

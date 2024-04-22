@@ -8,6 +8,10 @@ import {
 import EditorPage from "./components/pages/EditorPage";
 import LoginPage from "./components/pages/LoginPage";
 import SignUpPage from "./components/pages/SignUpPage";
+import PostForm from './components/PostForm';
+import BoardPage from './components/BoardPage';
+import PostDetail from './components/PostDetail';
+import EditPost from './components/EditPost'; // EditPost 컴포넌트를 import 합니다.
 
 function App() {
   return (
@@ -22,6 +26,10 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/main" element={<EditorPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/board" element={<BoardPage />} />
+        <Route path="/create" element={<PostForm />} />
+        <Route path="/board/post/:id" element={<PostDetail />} />
+        <Route path="/edit/:id" element={<EditPost />} /> {/* EditPost 컴포넌트에 대한 경로 설정 */}
       </Routes>
     </Router>
   );
