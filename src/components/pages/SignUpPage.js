@@ -36,38 +36,42 @@ const StyledInput = styled.input`
   text-align: center;
 `;
 
+const UserImage = styled.input`
+  display: none;
+`
+
 function SignUpPage() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [profileImage, setProfileImage] = useState(`https://www.svgrepo.com/show/533059/camera.svg
+  `)
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userData = new FormData();
+    userData.append('joinData', 
+      JSON.stringify({
+        username: userId,
+        password: password,
+        passwordCheck: passwordCheck,
+        name: name,
+        email: email,
+      })
+    )
+    userData.append('image', profileImage);  
+
     try {
-      if (password !== passwordCheck) throw new Error();
-      const qs = require("qs");
+      //if (password !== passwordCheck) throw new Error();
       const response = await axios.post(
-        "http://localhost:8080/join",
-        qs.stringify({
-          username: userId,
-          password: password,
-          passwordCheck: passwordCheck,
-          name: name,
-          email: email,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        "http://localhost:8080/join", userData 
       );
 
       setUserId("");
       setPassword("");
-      console.log(response);
       navigate(`/main`);
     } catch (error) {
       console.error("회원가입 실패:", error);
@@ -84,12 +88,22 @@ function SignUpPage() {
     navigate("/");
   };
 
+  const handleChangeImage = async (e) => {
+    const selectedImage = e.target.files[0];
+    setProfileImage(URL.createObjectURL(selectedImage));
+  }
   return (
     <BackGround>
       <div style={{ zIndex: "1", height: "40%" }}>
         <Logo src={img} alt="로고" />
       </div>
       <UserInfoForm onSubmit={handleSubmit}>
+        <Block style={{width: "15%", height: "30%", border: "2px solid green", borderRadius:"50%"}}>
+        <label htmlFor="profileimage" style={{cursor: "pointer"}}>
+          <img style={{background: "white", width: "100%", height: "100%", borderRadius: "50%"}} src={profileImage} alt="profile image"/>
+        </label>
+        <UserImage id="profileimage" type="file" accept="image/*" onChange={handleChangeImage} />
+        </Block>
         <Block>
           <StyledInput
             placeholder="ID"
@@ -133,7 +147,7 @@ function SignUpPage() {
         <Block>
           <StyledInput
             id="email"
-            type="tel"
+            type="text"
             placeholder="email@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
