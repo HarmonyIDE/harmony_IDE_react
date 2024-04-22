@@ -96,7 +96,7 @@ function LoginPage() {
         }
       );
       let token = response.headers.get("Authorization");
-      console.log(token);
+      sessionStorage.setItem("Authorization", token);
 
       sessionStorage.setItem("username", response.data.adminId);
 
