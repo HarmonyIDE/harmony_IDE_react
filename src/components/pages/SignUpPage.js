@@ -52,17 +52,19 @@ function SignUpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = new FormData();
+    const jsonData = JSON.stringify({
+      username: userId,
+      password: password,
+      passwordCheck: passwordCheck,
+      name: name,
+      email: email,
+    });
+
     userData.append(
       "joinData",
-      JSON.stringify({
-        username: userId,
-        password: password,
-        passwordCheck: passwordCheck,
-        name: name,
-        email: email,
-      })
+      new Blob([jsonData], { type: "application/json" })
     );
-    
+
     userData.append("image", profileImage);
 
     try {

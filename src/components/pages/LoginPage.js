@@ -86,7 +86,7 @@ function LoginPage() {
       const response = await axios.post(
         "http://localhost:8080/login",
         qs.stringify({
-          id: userId,
+          username: userId,
           password: password,
         }),
         {
@@ -95,6 +95,8 @@ function LoginPage() {
           },
         }
       );
+      let token = response.headers.get("Authorization");
+      console.log(token);
 
       sessionStorage.setItem("username", response.data.adminId);
 
