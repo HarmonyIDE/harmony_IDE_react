@@ -38,7 +38,7 @@ const StyledInput = styled.input`
 
 const UserImage = styled.input`
   display: none;
-`
+`;
 
 function SignUpPage() {
   const [userId, setUserId] = useState("");
@@ -46,14 +46,14 @@ function SignUpPage() {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [profileImage, setProfileImage] = useState(`https://www.svgrepo.com/show/533059/camera.svg
-  `)
+  const [profileImage, setProfileImage] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = new FormData();
-    userData.append('joinData', 
+    userData.append(
+      "joinData",
       JSON.stringify({
         username: userId,
         password: password,
@@ -61,14 +61,13 @@ function SignUpPage() {
         name: name,
         email: email,
       })
-    )
-    userData.append('image', profileImage);  
+    );
+    
+    userData.append("image", profileImage);
 
     try {
       //if (password !== passwordCheck) throw new Error();
-      const response = await axios.post(
-        "http://localhost:8080/join", userData 
-      );
+      const response = await axios.post("http://localhost:8080/join", userData);
 
       setUserId("");
       setPassword("");
@@ -90,19 +89,44 @@ function SignUpPage() {
 
   const handleChangeImage = async (e) => {
     const selectedImage = e.target.files[0];
-    setProfileImage(URL.createObjectURL(selectedImage));
-  }
+    setProfileImage(selectedImage);
+  };
   return (
     <BackGround>
       <div style={{ zIndex: "1", height: "40%" }}>
         <Logo src={img} alt="로고" />
       </div>
       <UserInfoForm onSubmit={handleSubmit}>
-        <Block style={{width: "15%", height: "30%", border: "2px solid green", borderRadius:"50%"}}>
-        <label htmlFor="profileimage" style={{cursor: "pointer"}}>
-          <img style={{background: "white", width: "100%", height: "100%", borderRadius: "50%"}} src={profileImage} alt="profile image"/>
-        </label>
-        <UserImage id="profileimage" type="file" accept="image/*" onChange={handleChangeImage} />
+        <Block
+          style={{
+            width: "15%",
+            height: "30%",
+            border: "2px solid green",
+            borderRadius: "50%",
+          }}
+        >
+          <label htmlFor="profileimage" style={{ cursor: "pointer" }}>
+            <img
+              style={{
+                background: "white",
+                width: "100%",
+                height: "100%",
+                borderRadius: "50%",
+              }}
+              src={
+                profileImage
+                  ? URL.createObjectURL(profileImage)
+                  : "https://www.svgrepo.com/show/533059/camera.svg"
+              }
+              alt="profileimage"
+            />
+          </label>
+          <UserImage
+            id="profileimage"
+            type="file"
+            accept="image/*"
+            onChange={handleChangeImage}
+          />
         </Block>
         <Block>
           <StyledInput

@@ -13,7 +13,6 @@ const ModalBox = styled.div`
 
 const ChatModal = ({ isOpen }) => {
   const [messages, setMessages] = useState([]);
-
   const [messageInput, setMessageInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);

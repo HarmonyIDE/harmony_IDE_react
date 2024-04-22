@@ -23,7 +23,7 @@ function EditorPage() {
   const [darkmode, setDarkmode] = useState(false);
   const [language, setLanguage] = useState("javascript");
   const [code, setCode] = useState(CODE_SNIPPET[language]);
-
+  
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <NavigationBar language={language} code={code} darkmode={darkmode} setDarkmode={setDarkmode}/>
