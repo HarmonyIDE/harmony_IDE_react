@@ -40,7 +40,8 @@ function SignUpPage() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -49,12 +50,13 @@ function SignUpPage() {
       if (password !== passwordCheck) throw new Error();
       const qs = require("qs");
       const response = await axios.post(
-        "http://localhost:8080/insMem",
+        "http://localhost:8080/join",
         qs.stringify({
-          userId: userId,
+          username: userId,
           password: password,
-          phoneNum: phoneNumber,
-          reg_time: new Date().toISOString(),
+          passwordCheck: passwordCheck,
+          name: name,
+          email: email,
         }),
         {
           headers: {
@@ -72,7 +74,8 @@ function SignUpPage() {
       setUserId("");
       setPassword("");
       setPasswordCheck("");
-      setPhoneNumber("");
+      setEmail("");
+      setName("");
       alert("정보를 제대로 입력해주세요!");
     }
   };
@@ -119,18 +122,34 @@ function SignUpPage() {
         </Block>
         <Block>
           <StyledInput
-            id="phonenumber"
+            placeholder="이름"
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </Block>
+        <Block>
+          <StyledInput
+            id="email"
             type="tel"
-            placeholder="123-456-7890"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="email@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </Block>
         <ButtonBlock>
-          <ButtonDefault style={{width: "45%"}} type="submit">Submit</ButtonDefault>
+          <ButtonDefault style={{ width: "45%" }} type="submit">
+            Submit
+          </ButtonDefault>
 
-          <ButtonDefault style={{width: "45%"}} type="button" onClick={handleBack}>
+          <ButtonDefault
+            style={{ width: "45%" }}
+            type="button"
+            onClick={handleBack}
+          >
             Cancel
           </ButtonDefault>
         </ButtonBlock>
