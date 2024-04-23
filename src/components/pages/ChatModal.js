@@ -44,10 +44,10 @@ const ChatBox = styled.div`
     width: 5px; /* 기본 스크롤바의 너비 */
   }
   &::-webkit-scrollbar-track {
-    background: transparent; 
+    background: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background: green; 
+    background: green;
     border-radius: 5px;
   }
 `;
@@ -143,75 +143,85 @@ const ChatModal = ({ isOpen, username }) => {
   // 검색창 포커스되면 스타일 변화
   const [focused, setFocused] = useState(false);
 
-  const websocket = useRef(null);
   const refWhoHaveScroll = useRef(null);
+  const ws = new WebSocket("ws://localhost:8080/ws/chat");
 
   useEffect(() => {
-    // websocket.current = new WebSocket("ws://localhost:8080/ws/chat");
+    ws.onopen = () => {
+      console.log("Connected to WebSocket server");
+    };
 
-    // websocket.current.onmessage = (event) => {
-    //   //받아오는 데이터가 json 형식이고, data에 username이 포함되어 있으면 처리해주면 됨
-    //   setMessageStack((prev) => [...prev, event.data]);
-    // };
-    scrollControl();
+    ws.onmessage = (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        setMessageStack((prev) => [...prev, {user: data.user, message: data.message}]);
+      } catch (err) {
+        console.error('Error parsing JSON:', err);
+      }
+      //받아오는 데이터가 json 형식이고, data에 username이 포함되어 있으면 처리해주면 됨
+    };
 
-    // return () => {
-    //   if (websocket.current) {
-    //     websocket.current.close();
-    //   }
-    // };
-  }, [messageStack, searchQuery]);
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, [messageStack, searchQuery, ws]);
 
-  const scrollControl = () => {
+  const scrollToBottom = () => {
     refWhoHaveScroll.current &&
       (refWhoHaveScroll.current.scrollTop =
         refWhoHaveScroll.current.scrollHeight);
   };
 
-  const sendMessage = (e) => {
+//   const messageToSend = { type: 'echo', message: 'Hello, WebSocket Server!' };
+//   ws.send(JSON.stringify(messageToSend));
+
+  const sendMessage = () => {
     if (messageInput.trim() !== "") {
-      //   websocket.current.send(messageInput);
-      setMessageStack((prev) => [
+        ws.send(JSON.stringify({user: username, message: messageInput}))
+        setMessageStack((prev) => [
         ...prev,
-        { user: "me", message: messageInput },
+        { user: username , message: messageInput },
       ]);
+      scrollToBottom();
       setMessageInput("");
     }
   };
 
-//   const handleSearch = async () => {
-//     setSearchResultsIndex((prev) => [
-//       ...prev,
-//       messageStack
-//         .map((obj, index) => (obj.message === searchQuery ? index : null))
-//         .filter((index) => index !== null),
-//     ]);
-//     //   if (searchQuery.trim() !== "") {
-//     //     const response = await fetch(
-//     //       `http://localhost:8080/search?query=${encodeURIComponent(searchQuery)}`,
-//     //       {
-//     //         method: "GET",
-//     //         headers: {
-//     //           "Content-Type": "application/json",
-//     //         },
-//     //       }
-//     //     );
-//     //     const results = await response.json();
-//     //     setSearchResults(results); // 검색 결과 상태 업데이트
-//     //     setSearchQuery(""); // 검색 필드 초기화
-//     //   }
-//     scrollToSearched();
-//     setScrollIndex((prev) =>
-//       prev === searchResultsIndex.length - 1 ? 1 : prev + 1
-//     );
-//   };
-const handleSearch = async () => {
+  //   const handleSearch = async () => {
+  //     setSearchResultsIndex((prev) => [
+  //       ...prev,
+  //       messageStack
+  //         .map((obj, index) => (obj.message === searchQuery ? index : null))
+  //         .filter((index) => index !== null),
+  //     ]);
+  //     //   if (searchQuery.trim() !== "") {
+  //     //     const response = await fetch(
+  //     //       `http://localhost:8080/search?query=${encodeURIComponent(searchQuery)}`,
+  //     //       {
+  //     //         method: "GET",
+  //     //         headers: {
+  //     //           "Content-Type": "application/json",
+  //     //         },
+  //     //       }
+  //     //     );
+  //     //     const results = await response.json();
+  //     //     setSearchResults(results); // 검색 결과 상태 업데이트
+  //     //     setSearchQuery(""); // 검색 필드 초기화
+  //     //   }
+  //     scrollToSearched();
+  //     setScrollIndex((prev) =>
+  //       prev === searchResultsIndex.length - 1 ? 1 : prev + 1
+  //     );
+  //   };
+  const handleSearch = async () => {
     const searchIndexes = messageStack
       .map((obj, index) => (obj.message.includes(searchQuery) ? index : null))
       .filter((index) => index !== null);
-  
+
     setSearchResultsIndex(searchIndexes);
-  
+
     scrollToSearched();
     setScrollIndex((prev) =>
       prev === searchIndexes.length - 1 ? 0 : prev + 1
@@ -277,7 +287,7 @@ const handleSearch = async () => {
                 new RegExp(`(${searchQuery})`, "g")
               );
               //송신자가 나일 경우와 타인일 경우 메시지 블록 위치 조정
-              return obj.user !== "me" ? (
+              return obj.user !== username ? (
                 <MessageBox id={`highlighted-${index}`} key={index}>
                   <Sender>{obj.user}</Sender>
                   <Message>
@@ -327,7 +337,7 @@ const handleSearch = async () => {
               );
             })()
           ) : // 검색하려는 값 존재 && 메세지 스택 안의 요소 객체들 중 찾으려는 검색 값 포함하는지 판별(아닌 경우)
-          obj.user !== "me" ? (
+          obj.user !== username ? (
             <MessageBox key={index}>
               <Sender>{obj.user}</Sender>
               <Message>{obj.message}</Message>

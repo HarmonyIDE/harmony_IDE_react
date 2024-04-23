@@ -75,7 +75,7 @@ const SignUpPage = () => {
 
       setUserId("");
       setPassword("");
-      navigate(`/`);
+      navigate(`/login`);
     } catch (error) {
       console.error("회원가입 실패:", error);
       setUserId("");
