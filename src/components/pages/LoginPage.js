@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   BackGround,
   UserInfoForm,
@@ -96,7 +96,7 @@ function LoginPage() {
         }
       );
       let token = response.headers.get("Authorization");
-      sessionStorage.setItem("Authorization", token);
+      localStorage.setItem("Authorization", token);
 
       sessionStorage.setItem("username", response.data.adminId);
 
@@ -121,7 +121,7 @@ function LoginPage() {
       <div style={{ zIndex: "1", height: "40%" }}>
         <Logo src={img} alt="로고" />
       </div>
-      <UserInfoForm onSubmit={handleLogin}>
+      <UserInfoForm>
         <Block>
           <StyledLabel htmlFor="username">ID&nbsp;:</StyledLabel>
           <StyledInput
@@ -129,7 +129,6 @@ function LoginPage() {
             type="text"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
-            required
           />
         </Block>
         <Block>
@@ -139,7 +138,6 @@ function LoginPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
         </Block>
         <Block
@@ -151,7 +149,9 @@ function LoginPage() {
             border: "0px",
           }}
         >
-          <ButtonDefault type="submit">Login</ButtonDefault>
+          <ButtonDefault type="button" onClick={handleLogin}>
+            Login
+          </ButtonDefault>
         </Block>
         <OptionalBlock>
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -170,22 +170,28 @@ function LoginPage() {
         </OptionalBlock>
         <SocialLoginBlocks>
           <SocialLoginButton style={{ background: "white" }}>
-            <img
-              src="https://statics.goorm.io/images/social/logo/googleLogo.svg"
-              alt="Google Login"
-            />
+            <a href="http://localhost:8080/oauth2/authorization/google">
+              <img
+                src="https://statics.goorm.io/images/social/logo/googleLogo.svg"
+                alt="Google Login"
+              />
+            </a>
           </SocialLoginButton>
           <SocialLoginButton style={{ background: "#ffcd00" }}>
-            <img
-              src="https://statics.goorm.io/images/social/logo/kakaoLogo.svg"
-              alt="KaKao Login"
-            />
+            <a href="http://localhost:8080/oauth2/authorization/kakao">
+              <img
+                src="https://statics.goorm.io/images/social/logo/kakaoLogo.svg"
+                alt="KaKao Login"
+              />
+            </a>
           </SocialLoginButton>
           <SocialLoginButton style={{ background: "#00C896" }}>
-            <img
-              src="https://statics.goorm.io/images/social/logo/naverLogo.svg"
-              alt="Naver Login"
-            />
+            <a href="http://localhost:8080/oauth2/authorization/naver">
+              <img
+                src="https://statics.goorm.io/images/social/logo/naverLogo.svg"
+                alt="Naver Login"
+              />
+            </a>
           </SocialLoginButton>
         </SocialLoginBlocks>
       </UserInfoForm>
