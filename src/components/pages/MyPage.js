@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,6 +16,7 @@ import matrixCamera from '../assets/matrixCamera.png';
 import normalCamera from '../assets/nomalCamera.png';
 import styled from "styled-components";
 import NavigationBar from "../NavigationBar";
+import defaultImage from '../assets/defaultImg.png';
 
 
 
@@ -25,58 +26,84 @@ function MyPage() {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState("default");
   const navigate = useNavigate();
   const [darkmode, setDarkmode] = useState(false);
   const cameraImage = darkmode ? matrixCamera : normalCamera;
+  const [oldPassword, setOldPassword] = useState("");
 
-  //유저정보 가져오기
-  const fetchUserInfo = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/memberInfo/${userId}`);
-      const userInfo = response.data;
-      // State 업데이트 로직을 추가하세요.
-      setName(userInfo.name);
-      setEmail(userInfo.email);
-      // ... 기타 필요한 state를 여기에 업데이트합니다.
-    } catch (error) {
-      console.error("사용자 정보 가져오기 실패:", error);
-      // 에러 핸들링을 위한 로직을 추가하세요.
-    }
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const userData = new FormData();
-    const jsonData = JSON.stringify({
-      username: userId,
-      password: password,
-      passwordCheck: passwordCheck,
-      name: name,
-      email: email,
-    });
 
-    userData.append(
-      "joinData",
-      new Blob([jsonData], { type: "application/json" })
-    );
-
-    userData.append("image", profileImage);
-
-    try {
-      const response = await axios.post("http://localhost:8080/join", userData);
-      setUserId("");
-      setPassword("");
-      navigate(`/main`);
-    } catch (error) {
-      console.error("회원가입 실패:", error);
-      setUserId("");
-      setPassword("");
-      setPasswordCheck("");
-      setEmail("");
-      setName("");
-      alert("정보를 제대로 입력해주세요!");
-    }
-  };
+  //개인 정보 셋팅 부분
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+            const token = localStorage.getItem("Authorization");
+            const response = await axios.get("http://localhost:8080/user", {
+                headers: {
+                Authorization: `${token}`,
+                },
+            });
+            console.log("Response:", response.data);
+            const { name, email, username,image } = response.data;
+                setName(name);
+                setEmail(email);
+                setUserId(username);
+                setProfileImage(getImagePath(image));
+            } catch (error) {
+            console.error("There was an error!", error);
+            }
+        };
+    fetchData();
+    },[]); 
+    //이미지 체크
+    const getImagePath = (image) => {
+        if (image === "default") {
+          return defaultImage;
+        } else {
+            setProfileImage(image)
+          return profileImage;
+        }
+      };
+    //개인정보 수정 부분
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const userData = new FormData();
+        const jsonData = JSON.stringify({
+            username: userId,
+            password: password,
+            checkPassword: passwordCheck,
+            oldPassword: oldPassword,
+            email: email,
+            name
+        });
+    
+        userData.append(
+          "joinData",
+          new Blob([jsonData], { type: "application/json" })
+        );
+    
+        userData.append("image", profileImage);
+    
+        try {
+          const token = localStorage.getItem("Authorization");
+          const response = await axios.post(`http://localhost:8080/memberInfo`, userData, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+          alert("개인정보 수정이 완료되었습니다!")
+        //   if (response.data.success) {
+        //     alert(response.data.message);
+        //     navigate('/myPage');
+        //   } else {
+        //     alert(response.data.message);
+        //   }
+        window.location.href="/login"
+        } catch (error) {
+          console.error("수정 실패:", error);
+          alert("정보를 제대로 입력해주세요!");
+        }
+      };
 
   const handleBack = async (e) => {
     navigate("/");
@@ -98,32 +125,27 @@ function MyPage() {
             width: "15%",
             height: "30%",
             border: "2px solid green",
-            borderRadius: "50%",
+            borderRadius: "25%",
           }}
         >
-          <label htmlFor="profileimage" style={{ cursor: "pointer" }}>
-            <img
-              style={{
-                background: "white",
-                width: "100%",
-                height: "100%",
-                borderRadius: "25%",
-                
-              }}
-              src={
-                profileImage
-                  ? URL.createObjectURL(profileImage)
-                  : cameraImage
-              }
-              alt="profileimage"
-            />
-          </label>
-          <UserImage
-            id="profileimage"
-            type="file"
-            accept="image/*"
-            onChange={handleChangeImage}
-          />
+        <label htmlFor="profileimage" style={{ cursor: "pointer" }}>
+                <img
+                    style={{
+                    background: "white",
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "25%",
+                    }}
+                    src={profileImage ? profileImage : cameraImage}
+                    alt="profileimage"
+                />
+        </label>
+        <UserImage
+        id="profileimage"
+        type="file"
+        accept="image/*"
+        onChange={handleChangeImage}
+        />
         </Block>
         <Block>
           <StyledInput
@@ -140,11 +162,10 @@ function MyPage() {
           <StyledInput
             darkmode={darkmode}
             placeholder="현재비밀번호"
-            id="passwordCurent"
+            id="oldPassword"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
           />
         </Block>
         <Block>
@@ -176,7 +197,8 @@ function MyPage() {
             id="name"
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {}} // 이름은 변경 불가능하므로 여기서는 setState를 호출하지 않습니다.
+            disabled // 입력 필드를 비활성화하여 수정 불가능하게 합니다.
             required
           />
         </Block>
@@ -184,7 +206,7 @@ function MyPage() {
           <StyledInput
             darkmode={darkmode}
             id="email"
-            type="text"
+            type="email"
             placeholder="email@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
