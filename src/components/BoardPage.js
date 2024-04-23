@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import NavigationBar from "./NavigationBar";
+
+
 function Board() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,23 +42,38 @@ function Board() {
 
   return (
     <div>
-      <h1>Board</h1>
-      <Link to="/create">Create Post</Link>
-      {posts.length > 0 ? (
-        posts.map(post => (
-          <div key={post.id}>
-            <p>글 번호: {post.id}</p>
-            <p>제목: <Link to={`/board/post/${post.id}`}>{post.boardTitle}</Link></p>
-            <p>작성자: {post.boardWriter}</p>
-            <p>생성일: {new Date(post.boardCreatedTime).toLocaleDateString()}</p>
-            <p>조회수: {post.boardHits}</p>
-          </div>
-        ))
-      ) : (
-        <p>No posts found</p>
-      )}
-      <div>
-        <button onClick={() => handlePageChange(1)}>First</button>
+      <NavigationBar />
+      <Link to="/create" className="create-post-button">Create Post</Link>
+      <table className="board-table">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>조회수</th>
+          </tr>
+        </thead>
+        <tbody>
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <tr key={post.id}>
+                <td>{post.id}</td>
+                <td><Link to={`/board/post/${post.id}`}>{post.boardTitle}</Link></td>
+                <td>{post.boardWriter}</td>
+                <td>{new Date(post.boardCreatedTime).toLocaleDateString()}</td>
+                <td>{post.boardHits}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">No posts found</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      <div className="pagination">
+        <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>First</button>
         <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Prev</button>
         {[...Array(totalPages).keys()].map((page) => (
           <button key={page} onClick={() => handlePageChange(page + 1)}>{page + 1}</button>

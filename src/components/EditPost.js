@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import './Board.css'; 
 function EditPost() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -45,36 +45,41 @@ function EditPost() {
   };
 
   return (
-    <div>
-      <h1>Edit Post</h1>
+    <div className="form-container">
+      <h1>수정</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
+        <div className="input-group">
+          <label htmlFor="boardTitle">제목</label>
           <input
-            type="text"
+            id="boardTitle"
             name="boardTitle"
+            type="text"
             value={postData.boardTitle}
             onChange={handleInputChange}
           />
         </div>
-        <div>
-          <label>Writer:</label>
+        <div className="input-group">
+          <label htmlFor="boardWriter">작성자</label>
           <input
-            type="text"
+            id="boardWriter"
             name="boardWriter"
+            type="text"
             value={postData.boardWriter}
             onChange={handleInputChange}
           />
         </div>
-        <div>
-          <label>Contents:</label>
+        <div className="input-group">
+          <label htmlFor="boardContents">글 내용</label>
           <textarea
+            id="boardContents"
             name="boardContents"
             value={postData.boardContents}
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit">Update Post</button>
+        <div className="input-group">
+          <button type="submit">수정</button>
+        </div>
       </form>
     </div>
   );

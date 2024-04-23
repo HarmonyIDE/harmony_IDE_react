@@ -57,8 +57,10 @@ const NavigationBar = ({ code, darkmode, setDarkmode, language }) => {
   const navigate = useNavigate(); // useHistory를 useNavigate로 변경
 
   const goToBoard = useCallback(() => {
-    navigate("/board"); // navigate 함수 사용
+    console.log("Navigating to /board");
+    navigate('/board'); // navigate 함수 사용
   }, [navigate]);
+  
 
   const goToMyPage = useCallback(() => {
     navigate("/myPage"); // navigate 함수 사용

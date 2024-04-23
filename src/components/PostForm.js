@@ -3,11 +3,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill'; // 이게 텍스트 에디터
 import 'react-quill/dist/quill.snow.css'; // Quill 스타일 시트 추가
-
+import './Board.css'; 
 function PostForm() {
   const [postData, setPostData] = useState({
     boardWriter: '',
-    boardPass: '',
     boardTitle: '',
     boardContents: '',
   });
@@ -33,16 +32,42 @@ function PostForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>작성자:</label>
-      <input type="text" name="boardWriter" value={postData.boardWriter} onChange={handleInputChange} />
-      <label>비밀번호:</label>
-      <input type="text" name="boardPass" value={postData.boardPass} onChange={handleInputChange} />
-      <label>제목:</label>
-      <input type="text" name="boardTitle" value={postData.boardTitle} onChange={handleInputChange} />
-      <ReactQuill theme="snow" value={postData.boardContents} onChange={handleEditorChange} />
-      <button type="submit">글 작성</button>
-    </form>
+    <div className="form-container">
+      <h1>글 작성</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="input-group">
+          <label htmlFor="boardWriter">작성자</label>
+          <input
+            id="boardWriter"
+            name="boardWriter"
+            type="text"
+            value={postData.boardWriter}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="boardTitle">제목</label>
+          <input
+            id="boardTitle"
+            name="boardTitle"
+            type="text"
+            value={postData.boardTitle}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="boardContents">내용</label>
+          <ReactQuill
+            id="boardContents"
+            value={postData.boardContents}
+            onChange={handleEditorChange}
+          />
+        </div>
+        <div className="input-group">
+          <button type="submit">글 작성</button>
+        </div>
+      </form>
+    </div>
   );
 }
 

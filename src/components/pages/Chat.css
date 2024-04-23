@@ -1,0 +1,54 @@
+.modal {
+    /* 기본 스타일은 그대로 유지 */
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+
+    right: 20px; /* 오른쪽에서 20px 떨어진 곳에 위치 */
+    bottom: 20px; /* 아래에서 20px 떨어진 곳에 위치 */
+    margin: 0; /* 중앙 배치를 무시하고 위치 지정 */
+    z-index: 1000; /* 다른 요소들 위에 모달이 오도록 z-index 설정 */
+}
+
+/* 화면 크기가 768px 이하일 때 모달 크기 조정 */
+@media (max-width: 768px) {
+    .modal {
+        width: 100%; /* 모바일 화면에서는 모달 너비를 100%로 설정 */
+        max-width: 375px; /* 모달의 최대 너비를 핸드폰 화면 크기에 맞춤 */
+        height: 50%; /* 모달의 높이를 50%로 설정 */
+        right: 0; /* 오른쪽 끝에 붙임 */
+        bottom: 0; /* 아래쪽 끝에 붙임 */
+        border-radius: 0; /* 모서리를 둥글지 않게 함 */
+    }
+}
+
+.input-container {
+    background-color: #fff; /* 입력창 배경색 */
+    padding: 10px;
+}
+
+.input-container input {
+    border: 1px solid #ccc; /* 입력창 경계선 스타일 */
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.input-container button {
+    background-color: #4CAF50; /* 버튼 색상 */
+    color: white; /* 버튼 글자 색상 */
+    border: none;
+    padding: 10px 20px; /* 버튼 패딩 */
+    text-transform: uppercase; /* 대문자 스타일 */
+    letter-spacing: 1px; /* 글자 간격 */
+    border-radius: 5px; /* 버튼 모서리 둥글게 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 버튼 그림자 */
+}
+/* Chat.css에 추가 */
+
