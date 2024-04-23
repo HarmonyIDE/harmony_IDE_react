@@ -58,6 +58,10 @@ const NavigationBar = ({code, darkmode, setDarkmode}) => {
     navigate('/board'); // navigate 함수 사용
   }, [navigate]);
 
+  const goToMyPage = useCallback(() => {
+    navigate('/myPage'); // navigate 함수 사용
+  }, [navigate]);
+
   const onClick = useCallback(e => {
     const change = !darkmode;
     setDarkmode(change);
@@ -109,7 +113,7 @@ const NavigationBar = ({code, darkmode, setDarkmode}) => {
             alt="Board"
           />
         </Button>
-        <Button>
+        <Button onClick={goToMyPage}>
           <Icon
             src="https://www.svgrepo.com/show/532362/user.svg"
             alt="User Info"

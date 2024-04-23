@@ -12,6 +12,7 @@ import PostForm from './components/PostForm';
 import BoardPage from './components/BoardPage';
 import PostDetail from './components/PostDetail';
 import EditPost from './components/EditPost'; // EditPost 컴포넌트를 import 합니다.
+import MyPage from './components/pages/MyPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/create" element={<PostForm />} />
         <Route path="/board/post/:id" element={<PostDetail />} />
         <Route path="/edit/:id" element={<EditPost />} /> {/* EditPost 컴포넌트에 대한 경로 설정 */}
+        <Route path="/myPage" element={<MyPage />} />
       </Routes>
     </Router>
   );

@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Consolebox = styled.div`
   height: 100%;
   padding-inline: 20px;
-  border: 1px solid #166c08;
+  border: 2.5px solid #166c08;
   border-radius: 4px;
 
   box-sizing: border-box;

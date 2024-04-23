@@ -6,42 +6,20 @@ import {
   UserInfoForm,
   Logo,
   ButtonDefault,
-} from "../lib/styles/PageStyles";
+  Block,
+  ButtonBlock,
+  StyledInput,
+  UserImage
+} from "../lib/styles/MyPageStyle.js";
 import img from "../assets/CodeHarmonyLogo.png";
-import styled from "styled-components";
 import matrixCamera from '../assets/matrixCamera.png';
+import normalCamera from '../assets/nomalCamera.png';
+import styled from "styled-components";
+import NavigationBar from "../NavigationBar";
 
-const Block = styled.div`
-  display: flex;
-  margin-bottom: 5px;
-  width: 80%;
-  height: 10%;
-  border: 2px solid green;
-  justify-content: center;
-`;
 
-const ButtonBlock = styled.div`
-  display: flex;
-  width: 80%;
-  height: 10%;
-  justify-content: space-between;
-`;
-const StyledInput = styled.input`
-  outline: none;
-  color: green;
-  width: 80%;
-  height: 100%;
-  box-sizing: border-box;
-  border: none;
-  background: black;
-  text-align: center;
-`;
 
-const UserImage = styled.input`
-  display: none;
-`;
-
-function SignUpPage() {
+function MyPage() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -49,7 +27,23 @@ function SignUpPage() {
   const [email, setEmail] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const navigate = useNavigate();
+  const [darkmode, setDarkmode] = useState(false);
+  const cameraImage = darkmode ? matrixCamera : normalCamera;
 
+  //유저정보 가져오기
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/memberInfo/${userId}`);
+      const userInfo = response.data;
+      // State 업데이트 로직을 추가하세요.
+      setName(userInfo.name);
+      setEmail(userInfo.email);
+      // ... 기타 필요한 state를 여기에 업데이트합니다.
+    } catch (error) {
+      console.error("사용자 정보 가져오기 실패:", error);
+      // 에러 핸들링을 위한 로직을 추가하세요.
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = new FormData();
@@ -69,9 +63,7 @@ function SignUpPage() {
     userData.append("image", profileImage);
 
     try {
-      //if (password !== passwordCheck) throw new Error();
       const response = await axios.post("http://localhost:8080/join", userData);
-
       setUserId("");
       setPassword("");
       navigate(`/main`);
@@ -95,7 +87,8 @@ function SignUpPage() {
     setProfileImage(selectedImage);
   };
   return (
-    <BackGround>
+    <BackGround darkmode={darkmode}>
+        <NavigationBar darkmode={darkmode} setDarkmode={setDarkmode}/>
       <div style={{ zIndex: "1", height: "20%" }}>
         <Logo src={img} alt="로고" />
       </div>
@@ -115,11 +108,12 @@ function SignUpPage() {
                 width: "100%",
                 height: "100%",
                 borderRadius: "25%",
+                
               }}
               src={
                 profileImage
                   ? URL.createObjectURL(profileImage)
-                  : matrixCamera
+                  : cameraImage
               }
               alt="profileimage"
             />
@@ -133,6 +127,7 @@ function SignUpPage() {
         </Block>
         <Block>
           <StyledInput
+            darkmode={darkmode}
             placeholder="ID"
             id="username"
             type="text"
@@ -143,7 +138,19 @@ function SignUpPage() {
         </Block>
         <Block>
           <StyledInput
-            placeholder="PW"
+            darkmode={darkmode}
+            placeholder="현재비밀번호"
+            id="passwordCurent"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </Block>
+        <Block>
+          <StyledInput
+            darkmode={darkmode}
+            placeholder="변경할 비밀번호"
             id="password"
             type="password"
             value={password}
@@ -153,6 +160,7 @@ function SignUpPage() {
         </Block>
         <Block>
           <StyledInput
+            darkmode={darkmode}
             placeholder="PW 확인"
             id="passwordCheck"
             type="password"
@@ -163,6 +171,7 @@ function SignUpPage() {
         </Block>
         <Block>
           <StyledInput
+            darkmode={darkmode}
             placeholder="이름"
             id="name"
             type="text"
@@ -173,6 +182,7 @@ function SignUpPage() {
         </Block>
         <Block>
           <StyledInput
+            darkmode={darkmode}
             id="email"
             type="text"
             placeholder="email@email.com"
@@ -198,4 +208,4 @@ function SignUpPage() {
     </BackGround>
   );
 }
-export default SignUpPage;
+export default MyPage;
