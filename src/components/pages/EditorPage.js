@@ -43,14 +43,13 @@ const ChatIcon = styled.img`
   background-color: transparent;
 `;
 
-function EditorPage() {
+const EditorPage = () => {
   const [gptOutput, setGptOutput] = useState(null);
   const [darkmode, setDarkmode] = useState(false);
   const [language, setLanguage] = useState("javascript");
   const [username, setUserName] = useState("");
   const [code, setCode] = useState(CODE_SNIPPET[language]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const tokenValue = sessionStorage.getItem("token");
 
   const handleModalOpen = (e) => {
     const change = !isModalOpen;

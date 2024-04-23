@@ -73,7 +73,7 @@ const SocialLoginButton = styled.button`
   height: 50px;
 `;
 
-function LoginPage() {
+const LoginPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();

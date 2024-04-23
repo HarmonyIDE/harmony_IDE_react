@@ -42,7 +42,7 @@ const UserImage = styled.input`
   display: none;
 `;
 
-function SignUpPage() {
+const SignUpPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");

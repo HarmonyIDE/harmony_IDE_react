@@ -13,6 +13,7 @@ import BoardPage from './components/BoardPage';
 import PostDetail from './components/PostDetail';
 import EditPost from './components/EditPost'; // EditPost 컴포넌트를 import 합니다.
 import MyPage from './components/pages/MyPage';
+import BackgroundVideo from "./components/BackgroundVideo";
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
         {/* <Route index element={<ReservePage />} /> */}
         {/* <Route path="admin" element={<AdminPage />} /> */}
         {/* </Route> */}
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<BackgroundVideo />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/main" element={<EditorPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/board" element={<BoardPage />} />
