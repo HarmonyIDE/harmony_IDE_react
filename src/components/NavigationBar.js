@@ -76,6 +76,13 @@ const NavigationBar = ({code, darkmode, setDarkmode, language}) => {
     element.click();
   };
 
+  const handleLogout = () => {
+    // resetAllstate();
+    sessionStorage.clear();
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
     <NaviagtionBarBox darkmode={darkmode}>
       <ButtonSet
@@ -119,7 +126,7 @@ const NavigationBar = ({code, darkmode, setDarkmode, language}) => {
             alt="User Info"
           />
         </Button>
-        <Button>
+        <Button onClick={handleLogout}>
           <Icon
             src="https://www.svgrepo.com/show/520828/logout.svg"
             alt="Logout"
