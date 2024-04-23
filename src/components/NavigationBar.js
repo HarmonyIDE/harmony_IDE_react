@@ -51,7 +51,7 @@ const Icon = styled.img`
 `;
 
 
-const NavigationBar = ({code, darkmode, setDarkmode}) => {
+const NavigationBar = ({code, darkmode, setDarkmode, language}) => {
   const navigate = useNavigate(); // useHistory를 useNavigate로 변경
 
   const goToBoard = useCallback(() => {
@@ -71,7 +71,7 @@ const NavigationBar = ({code, darkmode, setDarkmode}) => {
     const element = document.createElement("a");
     const file = new Blob([code], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "myData.js";
+    element.download = "mycode." + LANGUAGE_FILENAME[language];
     document.body.appendChild(element);
     element.click();
   };

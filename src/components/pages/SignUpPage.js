@@ -26,6 +26,7 @@ const ButtonBlock = styled.div`
   height: 10%;
   justify-content: space-between;
 `;
+
 const StyledInput = styled.input`
   outline: none;
   color: green;

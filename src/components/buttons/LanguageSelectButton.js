@@ -45,6 +45,11 @@ const LanguageButton = styled.button`
   border-bottom: 2px solid #166c08;
   border-top: ${({ open }) => (open ? "none" : "2px solid #166c08")};
   border-radius: ${({ open }) => (open ? "0px 0px 4px 4px" : "4px")};
+  &:hover {
+    border-bottom: 2px solid #0fc70e;
+    border-inline: 2px solid #0fc70e;  
+    border-top: ${({ open }) => (open ? "none" : "2px solid #0fc70e")};
+  }
   box-sizing: border-box;
 `;
 
@@ -52,7 +57,7 @@ const LanguageButton = styled.button`
 const LanguageList = styled.ul`
   background-color: transparent;
   position: absolute;
-  z-index: 2;
+  z-index: 1;
   bottom: 50%;
   padding: 0px;
   width: 150px;

@@ -1,7 +1,8 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
 import { toast } from "react-toastify";
-import { executeCode } from "../../api";
+import axios from "axios";
+import { LANGUAGE_VERSIONS } from "../../constants";
 
 const rotate = keyframes`
   from {
@@ -61,6 +62,20 @@ const RunButton = ({
   setCompileLoading,
   setIsError,
 }) => {
+
+  const executeCode = async (language, sourceCode) => {
+    const response = await axios.post("https://emkc.org/api/v2/piston/execute", {
+      language: language,
+      version: LANGUAGE_VERSIONS[language],
+      files: [
+        {
+          content: sourceCode,
+        },
+      ],
+    });
+    return response.data;
+  };
+
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) {

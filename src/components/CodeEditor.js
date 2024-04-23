@@ -12,7 +12,6 @@ const EditorConsoleBox = styled.div`
   position: relative;
   width: 60%;
   padding: 5px;
-  // border: 1px solid purple;
   box-sizing: border-box;
   background-color: ;
 `;
@@ -21,7 +20,6 @@ const VStack = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  // border: 1px solid grey;
   box-sizing: border-box;
   justify-content: center;
 `;
@@ -36,7 +34,6 @@ const EditorBox = styled.div`
 
 const Buttons = styled.div`
   height: 12%;
-  // border: 1px solid blue;
   display: flex;
   box-sizing: border-box;
   justify-content: space-around;
@@ -45,7 +42,6 @@ const Buttons = styled.div`
 
 const Outputbox = styled.div`
   height: 24%;
-  // border: 1px solid yellow;
   box-sizing: border-box;
   padding-block: 5px;
 `;
