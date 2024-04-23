@@ -78,7 +78,7 @@ const EditorPage = () => {
         }
 
         // 응답 데이터 콘솔에 출력
-        console.log("Response:", response.data.username);
+        console.log("Response:", response.data);
         setUserName(response.data.username);
       } catch (error) {
         // 에러 발생 시 콘솔에 에러 메시지 출력

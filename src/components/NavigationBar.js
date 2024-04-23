@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { LANGUAGE_FILENAME } from "../constants";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import cookie from "react-cookies";
 const NaviagtionBarBox = styled.div`
   width: 100%;
   height: 8%;
@@ -11,7 +12,10 @@ const NaviagtionBarBox = styled.div`
   text-align: center;
   box-sizing: border-box;
   border: 2px solid green;
-  background-image: ${({ darkmode }) => (darkmode ? "linear-gradient(to bottom, #0fc70e, #136107)" : "linear-gradient(to bottom, #B6F2AD, #136107)")};
+  background-image: ${({ darkmode }) =>
+    darkmode
+      ? "linear-gradient(to bottom, #0fc70e, #136107)"
+      : "linear-gradient(to bottom, #B6F2AD, #136107)"};
 `;
 
 const ButtonSet = styled.div`
@@ -29,7 +33,7 @@ const Button = styled.button`
   background-color: transparent;
   cursor: pointer;
   color: #166c08;
-  border: none;    
+  border: none;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
   &:hover {
     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2);
@@ -41,7 +45,6 @@ const Button = styled.button`
     border-right: 1px solid gray;
     border-bottom: 1px solid gray;
   }
-
 `;
 
 const Icon = styled.img`
@@ -50,22 +53,31 @@ const Icon = styled.img`
   box-sizing: border-box;
 `;
 
-
-const NavigationBar = ({code, darkmode, setDarkmode, language}) => {
+const NavigationBar = ({ code, darkmode, setDarkmode, language }) => {
   const navigate = useNavigate(); // useHistory를 useNavigate로 변경
 
   const goToBoard = useCallback(() => {
-    navigate('/board'); // navigate 함수 사용
+    navigate("/board"); // navigate 함수 사용
   }, [navigate]);
 
   const goToMyPage = useCallback(() => {
-    navigate('/myPage'); // navigate 함수 사용
+    navigate("/myPage"); // navigate 함수 사용
   }, [navigate]);
 
-  const onClick = useCallback(e => {
+  const goToHome = useCallback(() => {
+    navigate("/main");
+  }, [navigate]);
+
+  const onClick = useCallback((e) => {
     const change = !darkmode;
     setDarkmode(change);
-  })
+  });
+
+  const logout = useCallback(() => {
+    localStorage.clear();
+    cookie.remove("Authorization");
+    navigate("/");
+  }, [navigate]);
 
   const downloadTxtFile = () => {
     const element = document.createElement("a");
@@ -90,7 +102,7 @@ const NavigationBar = ({code, darkmode, setDarkmode, language}) => {
           justifyContent: "flex-start",
         }}
       >
-        <Button>
+        <Button onClick={goToHome}>
           <Icon
             src="https://www.svgrepo.com/show/465259/home-alt-3.svg"
             alt="Home"
@@ -126,7 +138,7 @@ const NavigationBar = ({code, darkmode, setDarkmode, language}) => {
             alt="User Info"
           />
         </Button>
-        <Button onClick={handleLogout}>
+        <Button onClick={logout}>
           <Icon
             src="https://www.svgrepo.com/show/520828/logout.svg"
             alt="Logout"
