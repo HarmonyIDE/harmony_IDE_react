@@ -40,12 +40,20 @@ function EditorPage() {
         // JWT 토큰 설정 (예시 토큰이므로 실제 토큰으로 교체 필요)
         const token = localStorage.getItem("Authorization");
 
-        // Axios GET 요청
-        const response = await axios.get("http://localhost:8080/user", {
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
+        let response = null;
+        // 일반 로그인 시 데이터 요청(Header로 인증)
+        if (token === null) {
+          response = await axios.get("http://localhost:8080/user", {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+        } else {
+          // 소셜 로그인 시 데이터 요청(Cookie로 인증)
+          response = await axios.get("http://localhost:8080/user", {
+            withCredentials: true,
+          });
+        }
 
         // 응답 데이터 콘솔에 출력
         console.log("Response:", response.data);
