@@ -43,7 +43,6 @@ const ChatIcon = styled.img`
   background-color: transparent;
 `;
 
-
 function EditorPage() {
   const [gptOutput, setGptOutput] = useState(null);
   const [darkmode, setDarkmode] = useState(false);
@@ -66,7 +65,7 @@ function EditorPage() {
 
         let response = null;
         // 일반 로그인 시 데이터 요청(Header로 인증)
-        if (token === null) {
+        if (token) {
           response = await axios.get("http://localhost:8080/user", {
             headers: {
               Authorization: `${token}`,
@@ -80,7 +79,7 @@ function EditorPage() {
         }
 
         // 응답 데이터 콘솔에 출력
-        console.log("Response:", response.data);
+        console.log("Response:", response.data.username);
         setUserName(response.data.username);
       } catch (error) {
         // 에러 발생 시 콘솔에 에러 메시지 출력
@@ -117,7 +116,7 @@ function EditorPage() {
           />
         </ModalButton>
         {/* <ChatModal isOpen={isModalOpen} messages={messages} onSendMessage={handleSendMessage}/> */}
-        <ChatModal isOpen={isModalOpen} username={username}/>
+        <ChatModal isOpen={isModalOpen} username={username} />
       </MainBox>
     </div>
   );

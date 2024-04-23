@@ -9,7 +9,7 @@ import {
 } from "../lib/styles/PageStyles";
 import img from "../assets/CodeHarmonyLogo.png";
 import styled from "styled-components";
-import matrixCamera from '../assets/matrixCamera.png';
+import matrixCamera from "../assets/matrixCamera.png";
 
 const Block = styled.div`
   display: flex;
@@ -75,7 +75,7 @@ function SignUpPage() {
 
       setUserId("");
       setPassword("");
-      navigate(`/main`);
+      navigate(`/`);
     } catch (error) {
       console.error("회원가입 실패:", error);
       setUserId("");
@@ -118,9 +118,7 @@ function SignUpPage() {
                 borderRadius: "25%",
               }}
               src={
-                profileImage
-                  ? URL.createObjectURL(profileImage)
-                  : matrixCamera
+                profileImage ? URL.createObjectURL(profileImage) : matrixCamera
               }
               alt="profileimage"
             />
