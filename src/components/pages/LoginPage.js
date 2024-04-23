@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -76,10 +76,26 @@ const SocialLoginButton = styled.button`
 const LoginPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [keepLogin, setKeepLogin] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    const storedPassword = localStorage.getItem("password");
+
+    if (storedUsername !== null && storedPassword !== null) {
+      setUserId(storedUsername);
+      setPassword(storedPassword);
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (keepLogin) {
+      localStorage.setItem("username", userId);
+      localStorage.setItem("password", password);
+    }
 
     try {
       const qs = require("qs");
@@ -114,6 +130,10 @@ const LoginPage = () => {
 
   const handleSignUp = () => {
     navigate(`/signup`);
+  };
+
+  const handleCheckboxChange = (e) => {
+    setKeepLogin(e.target.checked);
   };
 
   const loginGoogle = () => {
@@ -174,7 +194,13 @@ const LoginPage = () => {
         </Block>
         <OptionalBlock>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <input type="checkbox" id="myCheckbox" name="myCheckbox" />
+            <input
+              type="checkbox"
+              id="myCheckbox"
+              name="myCheckbox"
+              checked={keepLogin}
+              onChange={handleCheckboxChange}
+            />
             <label
               style={{ fontSize: "8px", color: "white", cursor: "pointer" }}
               for="myCheckbox"
@@ -219,5 +245,5 @@ const LoginPage = () => {
       </UserInfoForm>
     </BackGround>
   );
-}
+};
 export default LoginPage;

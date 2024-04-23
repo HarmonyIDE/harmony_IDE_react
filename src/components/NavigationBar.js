@@ -85,7 +85,7 @@ const NavigationBar = ({ code, darkmode, setDarkmode, language }) => {
   const handleLogout = () => {
     // resetAllstate();
     sessionStorage.clear();
-    localStorage.clear();
+    localStorage.removeItem("Authorization");
     cookie.remove("Authorization");
     navigate("/login");
   };
