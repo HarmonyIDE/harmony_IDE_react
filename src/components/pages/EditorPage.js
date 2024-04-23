@@ -25,8 +25,8 @@ const ModalButton = styled.button`
   position: fixed;
   right: 0px;
   bottom: 20px;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   border: 2px solid green;
   border-radius: 50%;
   cursor: pointer;
@@ -109,13 +109,16 @@ function EditorPage() {
           darkmode={darkmode}
         />
         <CodeReviewer gptOutput={gptOutput} darkmode={darkmode} />
-        <ModalButton onClick={handleModalOpen}>
+        <ModalButton onClick={handleModalOpen} isModalOpen={isModalOpen}>
           <ChatIcon
-            src="https://www.svgrepo.com/show/524404/chat-line.svg"
+            src={
+              isModalOpen
+                ? "https://www.svgrepo.com/show/521566/close-ellipse.svg"
+                : "https://www.svgrepo.com/show/524404/chat-line.svg"
+            }
             alt="chatbutton"
           />
         </ModalButton>
-        {/* <ChatModal isOpen={isModalOpen} messages={messages} onSendMessage={handleSendMessage}/> */}
         <ChatModal isOpen={isModalOpen} username={username} />
       </MainBox>
     </div>

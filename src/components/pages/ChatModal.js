@@ -44,10 +44,10 @@ const ChatBox = styled.div`
     width: 5px; /* 기본 스크롤바의 너비 */
   }
   &::-webkit-scrollbar-track {
-    background: transparent; /* 스크롤바 트랙의 기본 색상 */
+    background: transparent; 
   }
   &::-webkit-scrollbar-thumb {
-    background: green; /* 스크롤바 썸의 기본 색상 */
+    background: green; 
     border-radius: 5px;
   }
 `;
