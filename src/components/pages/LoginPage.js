@@ -116,12 +116,31 @@ function LoginPage() {
     navigate(`/signup`);
   };
 
+  const loginGoogle = () => {
+    // navigate("http://localhost:8080/oauth2/authorization/google");
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
+
+  const loginKakao = () => {
+    // navigate("http://localhost:8080/oauth2/authorization/google");
+    window.location.href = "http://localhost:8080/oauth2/authorization/kakao";
+  };
+
+  const loginNaver = () => {
+    // navigate("http://localhost:8080/oauth2/authorization/google");
+    window.location.href = "http://localhost:8080/oauth2/authorization/naver";
+  };
+
   return (
     <BackGround>
       <div style={{ zIndex: "1", height: "40%" }}>
         <Logo src={img} alt="로고" />
       </div>
-      <UserInfoForm>
+      <UserInfoForm
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <Block>
           <StyledLabel htmlFor="username">ID&nbsp;:</StyledLabel>
           <StyledInput
@@ -169,29 +188,32 @@ function LoginPage() {
           </EnterSignupButton>
         </OptionalBlock>
         <SocialLoginBlocks>
-          <SocialLoginButton style={{ background: "white" }}>
-            <a href="http://localhost:8080/oauth2/authorization/google">
-              <img
-                src="https://statics.goorm.io/images/social/logo/googleLogo.svg"
-                alt="Google Login"
-              />
-            </a>
+          <SocialLoginButton
+            style={{ background: "white" }}
+            onClick={loginGoogle}
+          >
+            <img
+              src="https://statics.goorm.io/images/social/logo/googleLogo.svg"
+              alt="Google Login"
+            />
           </SocialLoginButton>
-          <SocialLoginButton style={{ background: "#ffcd00" }}>
-            <a href="http://localhost:8080/oauth2/authorization/kakao">
-              <img
-                src="https://statics.goorm.io/images/social/logo/kakaoLogo.svg"
-                alt="KaKao Login"
-              />
-            </a>
+          <SocialLoginButton
+            style={{ background: "#ffcd00" }}
+            onClick={loginKakao}
+          >
+            <img
+              src="https://statics.goorm.io/images/social/logo/kakaoLogo.svg"
+              alt="KaKao Login"
+            />
           </SocialLoginButton>
-          <SocialLoginButton style={{ background: "#00C896" }}>
-            <a href="http://localhost:8080/oauth2/authorization/naver">
-              <img
-                src="https://statics.goorm.io/images/social/logo/naverLogo.svg"
-                alt="Naver Login"
-              />
-            </a>
+          <SocialLoginButton
+            style={{ background: "#00C896" }}
+            onClick={loginNaver}
+          >
+            <img
+              src="https://statics.goorm.io/images/social/logo/naverLogo.svg"
+              alt="Naver Login"
+            />
           </SocialLoginButton>
         </SocialLoginBlocks>
       </UserInfoForm>
