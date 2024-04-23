@@ -73,12 +73,6 @@ const NavigationBar = ({ code, darkmode, setDarkmode, language }) => {
     setDarkmode(change);
   });
 
-  const logout = useCallback(() => {
-    localStorage.clear();
-    cookie.remove("Authorization");
-    navigate("/");
-  }, [navigate]);
-
   const downloadTxtFile = () => {
     const element = document.createElement("a");
     const file = new Blob([code], { type: "text/plain" });
@@ -92,7 +86,8 @@ const NavigationBar = ({ code, darkmode, setDarkmode, language }) => {
     // resetAllstate();
     sessionStorage.clear();
     localStorage.clear();
-    navigate("/");
+    cookie.remove("Authorization");
+    navigate("/login");
   };
 
   return (
@@ -138,7 +133,7 @@ const NavigationBar = ({ code, darkmode, setDarkmode, language }) => {
             alt="User Info"
           />
         </Button>
-        <Button onClick={logout}>
+        <Button onClick={handleLogout}>
           <Icon
             src="https://www.svgrepo.com/show/520828/logout.svg"
             alt="Logout"
