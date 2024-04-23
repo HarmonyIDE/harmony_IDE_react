@@ -43,13 +43,14 @@ const ChatIcon = styled.img`
   background-color: transparent;
 `;
 
+
 function EditorPage() {
   const [gptOutput, setGptOutput] = useState(null);
   const [darkmode, setDarkmode] = useState(false);
   const [language, setLanguage] = useState("javascript");
+  const [username, setUserName] = useState("");
   const [code, setCode] = useState(CODE_SNIPPET[language]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [username, setUserName] = useState("");
   const tokenValue = sessionStorage.getItem("token");
 
   const handleModalOpen = (e) => {
@@ -58,24 +59,37 @@ function EditorPage() {
   };
 
   useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchData = async () => {
       try {
-        const qs = require("qs");
-        const response = await axios.get(
-          "http://localhost:8080/user",
-          {
+        // JWT 토큰 설정 (예시 토큰이므로 실제 토큰으로 교체 필요)
+        const token = localStorage.getItem("Authorization");
+
+        let response = null;
+        // 일반 로그인 시 데이터 요청(Header로 인증)
+        if (token === null) {
+          response = await axios.get("http://localhost:8080/user", {
             headers: {
-              Authorization: "Bearer ${tokenValue}",
+              Authorization: `${token}`,
             },
-          }
-        );
-        setUserName(response.data.username); //응답 어떻게 오는지 몰라서 대충 써놓음
-      } catch (e) {
-        console.error(e);
+          });
+        } else {
+          // 소셜 로그인 시 데이터 요청(Cookie로 인증)
+          response = await axios.get("http://localhost:8080/user", {
+            withCredentials: true,
+          });
+        }
+
+        // 응답 데이터 콘솔에 출력
+        console.log("Response:", response.data);
+        setUserName(response.data.username);
+      } catch (error) {
+        // 에러 발생 시 콘솔에 에러 메시지 출력
+        console.error("There was an error!", error);
       }
     };
-    fetchUserName();
-  }, []);
+
+    fetchData();
+  }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
