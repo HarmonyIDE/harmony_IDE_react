@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import videoSource from './assets/6238188-hd_1920_1080_30fps.mp4';
+import videoSource from './assets/mainvedio.mp4';
+import './lib/styles/MainPage.css'
 
 const VideoContainer = styled.div`
   position: relative;
@@ -63,8 +64,8 @@ const BackgroundVideo = () => {
         Your browser does not support the video tag.
       </Video>
       <Content>
-        <h1>Welcome to Harmony IDE</h1>
-        <Button top="70%" left="50%" onClick={() => navigate('/login')}>Enter</Button>
+        <h1 id='welcome-msg'>Welcome to Harmony IDE</h1>
+        <Button id='enterbtn' top="70%" left="50%" onClick={() => navigate('/login')}>Enter</Button>
       </Content>
     </VideoContainer>
   );
