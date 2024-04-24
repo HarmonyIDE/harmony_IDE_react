@@ -43,9 +43,8 @@ const ChatIcon = styled.img`
   background-color: transparent;
 `;
 
-const EditorPage = () => {
+const EditorPage = ({darkmode, setDarkmode}) => {
   const [gptOutput, setGptOutput] = useState(null);
-  const [darkmode, setDarkmode] = useState(false);
   const [language, setLanguage] = useState("javascript");
   const [code, setCode] = useState(CODE_SNIPPET[language]);
   const [isModalOpen, setIsModalOpen] = useState(false);

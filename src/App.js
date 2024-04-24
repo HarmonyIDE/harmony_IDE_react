@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -16,7 +16,8 @@ import EditPost from "./pages/EditPost";
 import MyPage from "./pages/MyPage";
 
 
-function App() {
+const App = () => {
+  const [darkmode, setDarkmode] = useState(true)
   return (
     <Router>
       <Routes>
@@ -28,13 +29,13 @@ function App() {
         {/* </Route> */}
         <Route path="/" element={<BackgroundVideo />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/main" element={<EditorPage />} />
+        <Route path="/main" element={<EditorPage darkmode={darkmode} setDarkmode={setDarkmode}/>} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/board" element={<BoardPage />} />
-        <Route path="/create" element={<PostForm />} />
-        <Route path="/board/post/:id" element={<PostDetail />} />
-        <Route path="/edit/:id" element={<EditPost />} /> 
-        <Route path="/myPage" element={<MyPage />} />
+        <Route path="/board" element={<BoardPage darkmode={darkmode} setDarkmode={setDarkmode}/>} />
+        <Route path="/create" element={<PostForm darkmode={darkmode} setDarkmode={setDarkmode}/>} />
+        <Route path="/board/post/:id" element={<PostDetail darkmode={darkmode} setDarkmode={setDarkmode}/>} />
+        <Route path="/edit/:id" element={<EditPost darkmode={darkmode} setDarkmode={setDarkmode}/>} /> 
+        <Route path="/myPage" element={<MyPage darkmode={darkmode} setDarkmode={setDarkmode}/>} />
       </Routes>
     </Router>
   );

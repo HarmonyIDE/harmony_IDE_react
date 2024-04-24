@@ -93,7 +93,7 @@ const NavigationBar = ({ code, darkmode, setDarkmode, language }) => {
   };
 
   return (
-    <NaviagtionBarBox darkmode={darkmode}>
+    <NaviagtionBarBox>
       <ButtonSet
         style={{
           justifyContent: "flex-start",
@@ -123,7 +123,7 @@ const NavigationBar = ({ code, darkmode, setDarkmode, language }) => {
           justifyContent: "flex-end",
         }}
       >
-        <Button onClick={goToBoard}>
+        <Button onClick={goToBoard} darkmode={darkmode}>
           <Icon
             src="https://www.svgrepo.com/show/532228/table-list.svg"
             alt="Board"

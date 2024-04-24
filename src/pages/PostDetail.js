@@ -129,7 +129,7 @@ const PostDetail = () =>  {
     }
   };
 
-  // if (!post) return <div>Loading...</div>;
+  if (!post) return <div>Loading...</div>;
 
   return (
     <PostDetailContainer>

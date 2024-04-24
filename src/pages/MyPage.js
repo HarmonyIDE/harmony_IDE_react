@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,18 +9,16 @@ import {
   Block,
   ButtonBlock,
   StyledInput,
-  UserImage
+  UserImage,
 } from "../lib/styles/MyPageStyle";
 import img from "../lib/assets/CodeHarmonyLogo.png";
-import matrixCamera from '../lib/assets/matrixCamera.png';
-import normalCamera from '../lib/assets/nomalCamera.png';
+import matrixCamera from "../lib/assets/matrixCamera.png";
+import normalCamera from "../lib/assets/nomalCamera.png";
 import styled from "styled-components";
 import NavigationBar from "../components/Header/NavigationBar";
-import defaultImage from '../lib/assets/defaultImg.png';
+import defaultImage from "../lib/assets/defaultImg.png";
 
-
-
-const MyPage = () => {
+const MyPage = ({ darkmode, setDarkmode }) => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -28,82 +26,84 @@ const MyPage = () => {
   const [email, setEmail] = useState("");
   const [profileImage, setProfileImage] = useState("default");
   const navigate = useNavigate();
-  const [darkmode, setDarkmode] = useState(false);
   const cameraImage = darkmode ? matrixCamera : normalCamera;
   const [oldPassword, setOldPassword] = useState("");
 
-
   //개인 정보 셋팅 부분
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-            const token = localStorage.getItem("Authorization");
-            const response = await axios.get("http://localhost:8080/user", {
-                headers: {
-                Authorization: `${token}`,
-                },
-            });
-            console.log("Response:", response.data);
-            const { name, email, username,image } = response.data;
-                setName(name);
-                setEmail(email);
-                setUserId(username);
-                setProfileImage(getImagePath(image));
-            } catch (error) {
-            console.error("There was an error!", error);
-            }
-        };
-    fetchData();
-    },[]); 
-    //이미지 체크
-    const getImagePath = (image) => {
-        if (image === "default") {
-          return defaultImage;
-        } else {
-            setProfileImage(image)
-          return profileImage;
-        }
-      };
-    //개인정보 수정 부분
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const userData = new FormData();
-        const jsonData = JSON.stringify({
-            username: userId,
-            password: password,
-            checkPassword: passwordCheck,
-            oldPassword: oldPassword,
-            email: email,
-            name
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("Authorization");
+        const response = await axios.get("http://localhost:8080/user", {
+          headers: {
+            Authorization: `${token}`,
+          },
         });
-    
-        userData.append(
-          "joinData",
-          new Blob([jsonData], { type: "application/json" })
-        );
-    
-        userData.append("image", profileImage);
-    
-        try {
-          const token = localStorage.getItem("Authorization");
-          const response = await axios.post(`http://localhost:8080/memberInfo`, userData, {
-            headers: {
-              Authorization: `${token}`,
-            },
-          });
-          alert("개인정보 수정이 완료되었습니다!")
-        //   if (response.data.success) {
-        //     alert(response.data.message);
-        //     navigate('/myPage');
-        //   } else {
-        //     alert(response.data.message);
-        //   }
-        window.location.href="/login"
-        } catch (error) {
-          console.error("수정 실패:", error);
-          alert("정보를 제대로 입력해주세요!");
+        console.log("Response:", response.data);
+        const { name, email, username, image } = response.data;
+        setName(name);
+        setEmail(email);
+        setUserId(username);
+        setProfileImage(getImagePath(image));
+      } catch (error) {
+        console.error("There was an error!", error);
+      }
+    };
+    fetchData();
+  }, []);
+  //이미지 체크
+  const getImagePath = (image) => {
+    if (image === "default") {
+      return defaultImage;
+    } else {
+      setProfileImage(image);
+      return profileImage;
+    }
+  };
+  //개인정보 수정 부분
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userData = new FormData();
+    const jsonData = JSON.stringify({
+      username: userId,
+      password: password,
+      checkPassword: passwordCheck,
+      oldPassword: oldPassword,
+      email: email,
+      name,
+    });
+
+    userData.append(
+      "joinData",
+      new Blob([jsonData], { type: "application/json" })
+    );
+
+    userData.append("image", profileImage);
+
+    try {
+      const token = localStorage.getItem("Authorization");
+      const response = await axios.post(
+        `http://localhost:8080/memberInfo`,
+        userData,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
         }
-      };
+      );
+      alert("개인정보 수정이 완료되었습니다!");
+      //   if (response.data.success) {
+      //     alert(response.data.message);
+      //     navigate('/myPage');
+      //   } else {
+      //     alert(response.data.message);
+      //   }
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("수정 실패:", error);
+      alert("정보를 제대로 입력해주세요!");
+    }
+  };
 
   const handleBack = async (e) => {
     navigate("/");
@@ -115,11 +115,11 @@ const MyPage = () => {
   };
   return (
     <BackGround darkmode={darkmode}>
-        <NavigationBar darkmode={darkmode} setDarkmode={setDarkmode}/>
+      <NavigationBar darkmode={darkmode} setDarkmode={setDarkmode} />
       <div style={{ zIndex: "1", height: "20%" }}>
         <Logo src={img} alt="로고" />
       </div>
-      <UserInfoForm onSubmit={handleSubmit}>
+      <UserInfoForm style={{height: "72%"}}onSubmit={handleSubmit}>
         <Block
           style={{
             width: "15%",
@@ -128,24 +128,24 @@ const MyPage = () => {
             borderRadius: "25%",
           }}
         >
-        <label htmlFor="profileimage" style={{ cursor: "pointer" }}>
-                <img
-                    style={{
-                    background: "white",
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "25%",
-                    }}
-                    src={profileImage ? profileImage : cameraImage}
-                    alt="profileimage"
-                />
-        </label>
-        <UserImage
-        id="profileimage"
-        type="file"
-        accept="image/*"
-        onChange={handleChangeImage}
-        />
+          <label htmlFor="profileimage" style={{ cursor: "pointer" }}>
+            <img
+              style={{
+                background: "white",
+                width: "100%",
+                height: "100%",
+                borderRadius: "25%",
+              }}
+              src={profileImage ? profileImage : cameraImage}
+              alt="profileimage"
+            />
+          </label>
+          <UserImage
+            id="profileimage"
+            type="file"
+            accept="image/*"
+            onChange={handleChangeImage}
+          />
         </Block>
         <Block>
           <StyledInput
@@ -229,5 +229,5 @@ const MyPage = () => {
       </UserInfoForm>
     </BackGround>
   );
-}
+};
 export default MyPage;
