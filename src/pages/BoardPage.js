@@ -1,11 +1,82 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import NavigationBar from "../components/Header/NavigationBar";
 
-import NavigationBar from "./NavigationBar";
+const CreatePostButton = styled(Link)`
+  display: block;
+  width: 100%;
+  max-width: 130px;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 
+  &:hover {
+    background-color: #176b17;
+  }
+`;
 
-function Board() {
+const BoardTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+  button {
+    margin: 0 5px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #367c39;
+    }
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    &.active {
+      border: 2px solid #262626;
+      background-color: #666;
+    }
+  }
+`;
+
+const BoardPage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,18 +104,17 @@ function Board() {
     fetchPosts();
   }, [currentPage]);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
   };
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
 
   return (
     <div>
       <NavigationBar />
-      <Link to="/create" className="create-post-button">Create Post</Link>
-      <table className="board-table">
+      <CreatePostButton to="/create">Create Post</CreatePostButton>
+      <BoardTable>
         <thead>
           <tr>
             <th>번호</th>
@@ -71,18 +141,18 @@ function Board() {
             </tr>
           )}
         </tbody>
-      </table>
-      <div className="pagination">
+      </BoardTable>
+      <Pagination>
         <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>First</button>
         <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Prev</button>
         {[...Array(totalPages).keys()].map((page) => (
-          <button key={page} onClick={() => handlePageChange(page + 1)}>{page + 1}</button>
+          <button key={page} onClick={() => handlePageChange(page + 1)} className={page + 1 === currentPage ? 'active' : ''}>{page + 1}</button>
         ))}
         <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
         <button onClick={() => handlePageChange(totalPages)}>Last</button>
-      </div>
+      </Pagination>
     </div>
   );
 }
 
-export default Board;
+export default BoardPage;

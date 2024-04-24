@@ -5,15 +5,16 @@ import {
   Routes,
   Outlet,
 } from "react-router-dom";
-import EditorPage from "./components/pages/EditorPage";
-import LoginPage from "./components/pages/LoginPage";
-import SignUpPage from "./components/pages/SignUpPage";
-import PostForm from './components/PostForm';
-import BoardPage from './components/BoardPage';
-import PostDetail from './components/PostDetail';
-import EditPost from './components/EditPost'; // EditPost 컴포넌트를 import 합니다.
-import MyPage from './components/pages/MyPage';
-import BackgroundVideo from "./components/BackgroundVideo";
+import BackgroundVideo from "./pages/MainPage";
+import LoginPage from "./pages/LoginPage";
+import EditorPage from "./pages/EditorPage";
+import SignUpPage from "./pages/SignUpPage";
+import BoardPage from "./pages/BoardPage";
+import PostForm from "./pages/PostForm";
+import PostDetail from "./pages/PostDetail";
+import EditPost from "./pages/EditPost";
+import MyPage from "./pages/MyPage";
+
 
 function App() {
   return (
@@ -32,18 +33,10 @@ function App() {
         <Route path="/board" element={<BoardPage />} />
         <Route path="/create" element={<PostForm />} />
         <Route path="/board/post/:id" element={<PostDetail />} />
-        <Route path="/edit/:id" element={<EditPost />} /> {/* EditPost 컴포넌트에 대한 경로 설정 */}
+        <Route path="/edit/:id" element={<EditPost />} /> 
         <Route path="/myPage" element={<MyPage />} />
       </Routes>
     </Router>
-  );
-}
-
-function ReservationRoute() {
-  return (
-    <div>
-      <Outlet />
-    </div>
   );
 }
 

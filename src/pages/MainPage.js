@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import videoSource from './assets/mainvedio.mp4';
-import './lib/styles/MainPage.css'
+import videoSource from '../lib/assets/mainvideo.mp4';
+// import './lib/styles/MainPage.css'
 
 const VideoContainer = styled.div`
   position: relative;

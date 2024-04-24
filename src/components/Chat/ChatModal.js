@@ -127,7 +127,8 @@ const ActionButton = styled.button`
   outline: none;
 `;
 
-const ChatModal = ({ isOpen, username }) => {
+const ChatModal = ({ isOpen }) => {
+  const username = sessionStorage.getItem("username")
   const [messageStack, setMessageStack] = useState([
     { user: "me", message: "hi" },
     { user: "you", message: "hellooooooooooooooooooooooooo" },
@@ -154,9 +155,12 @@ const ChatModal = ({ isOpen, username }) => {
     ws.onmessage = (e) => {
       try {
         const data = JSON.parse(e.data);
-        setMessageStack((prev) => [...prev, {user: data.user, message: data.message}]);
+        setMessageStack((prev) => [
+          ...prev,
+          { user: data.user, message: data.message },
+        ]);
       } catch (err) {
-        console.error('Error parsing JSON:', err);
+        console.error("Error parsing JSON:", err);
       }
       //받아오는 데이터가 json 형식이고, data에 username이 포함되어 있으면 처리해주면 됨
     };
@@ -174,15 +178,15 @@ const ChatModal = ({ isOpen, username }) => {
         refWhoHaveScroll.current.scrollHeight);
   };
 
-//   const messageToSend = { type: 'echo', message: 'Hello, WebSocket Server!' };
-//   ws.send(JSON.stringify(messageToSend));
+  //   const messageToSend = { type: 'echo', message: 'Hello, WebSocket Server!' };
+  //   ws.send(JSON.stringify(messageToSend));
 
   const sendMessage = () => {
     if (messageInput.trim() !== "") {
-        ws.send(JSON.stringify({user: username, message: messageInput}))
-        setMessageStack((prev) => [
+      ws.send(JSON.stringify({ user: username, message: messageInput }));
+      setMessageStack((prev) => [
         ...prev,
-        { user: username , message: messageInput },
+        { user: username, message: messageInput },
       ]);
       scrollToBottom();
       setMessageInput("");

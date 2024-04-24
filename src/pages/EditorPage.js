@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import CodeEditor from "../CodeEditor";
 import styled from "styled-components";
-import NavigationBar from "../NavigationBar";
-import CodeReviewer from "../CodeReviewer";
+import NavigationBar from "../components/Header/NavigationBar";
+import CodeReviewer from "../components/CodeReviewer/CodeReviewer";
 // import { ToastContainer } from "react-toastify";
-import FileTreeBar from "../FileTreeBar";
-import { CODE_SNIPPET } from "../../constants";
-import ChatModal from "./ChatModal";
+import FileTreeBar from "../components/FileTree/FileTreeBar";
+import { CODE_SNIPPET } from "../constants";
 import axios from "axios";
+import ChatModal from "../components/Chat/ChatModal";
+import CodeEditor from "../components/CodeEditor/CodeEditor";
 
 const MainBox = styled.div`
   height: 90%;
@@ -47,14 +47,12 @@ const EditorPage = () => {
   const [gptOutput, setGptOutput] = useState(null);
   const [darkmode, setDarkmode] = useState(false);
   const [language, setLanguage] = useState("javascript");
-  const [username, setUserName] = useState("");
   const [code, setCode] = useState(CODE_SNIPPET[language]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = (e) => {
-    const change = !isModalOpen;
-    setIsModalOpen(change);
-  };
+    setIsModalOpen(prev => !prev);
+};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,12 +74,8 @@ const EditorPage = () => {
             withCredentials: true,
           });
         }
-
-        // 응답 데이터 콘솔에 출력
-        console.log("Response:", response.data);
-        setUserName(response.data.username);
+        sessionStorage.setItem("username", response.data.name);
       } catch (error) {
-        // 에러 발생 시 콘솔에 에러 메시지 출력
         console.error("There was an error!", error);
       }
     };
@@ -118,7 +112,7 @@ const EditorPage = () => {
             alt="chatbutton"
           />
         </ModalButton>
-        <ChatModal isOpen={isModalOpen} username={username} />
+        <ChatModal isOpen={isModalOpen} />
       </MainBox>
     </div>
   );

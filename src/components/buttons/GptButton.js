@@ -57,7 +57,7 @@ const GptIcon = styled.img`
 const GptButton = ({ editorRef, setGptOutput, gptLoading, setGptLoading }) => {
   const openai = new OpenAI({
     organization: "org-efXAZdAhgjdSpOnxMMM3x58I",
-    apiKey: "개인 OpenAI-key 값", //지금은 직접 api 키 넣어줬지만 백으로 빼는 게 보안 가이드라인에 맞음
+    apiKey: "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", //지금은 직접 api 키 넣어줬지만 백으로 빼는 게 보안 가이드라인에 맞음
     dangerouslyAllowBrowser: true,
   });
   const runCode = async () => {

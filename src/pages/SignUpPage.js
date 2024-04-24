@@ -7,9 +7,9 @@ import {
   Logo,
   ButtonDefault,
 } from "../lib/styles/PageStyles";
-import img from "../assets/CodeHarmonyLogo.png";
+import img from "../lib/assets/CodeHarmonyLogo.png";
 import styled from "styled-components";
-import matrixCamera from "../assets/matrixCamera.png";
+import matrixCamera from "../lib/assets/matrixCamera.png";
 
 const Block = styled.div`
   display: flex;

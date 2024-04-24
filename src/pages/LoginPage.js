@@ -7,7 +7,7 @@ import {
   ButtonDefault,
   Logo,
 } from "../lib/styles/PageStyles";
-import img from "../assets/CodeHarmonyLogo.png";
+import img from "../lib/assets/CodeHarmonyLogo.png";
 import styled from "styled-components";
 
 const Block = styled.div`
@@ -80,11 +80,11 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
+    const storedUserId = localStorage.getItem("userId");
     const storedPassword = localStorage.getItem("password");
 
-    if (storedUsername !== null && storedPassword !== null) {
-      setUserId(storedUsername);
+    if (storedUserId !== null && storedPassword !== null) {
+      setUserId(storedUserId);
       setPassword(storedPassword);
     }
   }, []);
@@ -93,7 +93,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (keepLogin) {
-      localStorage.setItem("username", userId);
+      localStorage.setItem("userId", userId);
       localStorage.setItem("password", password);
     }
 
@@ -113,8 +113,6 @@ const LoginPage = () => {
       );
       let token = response.headers.get("Authorization");
       localStorage.setItem("Authorization", token);
-
-      sessionStorage.setItem("username", response.data.adminId);
 
       setUserId("");
       setPassword("");

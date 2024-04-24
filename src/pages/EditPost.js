@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import './Board.css'; 
-function EditPost() {
+import ReactQuill from 'react-quill'; // 텍스트 에디터 컴포넌트
+import 'react-quill/dist/quill.snow.css'; // Quill 스타일 시트
+
+const EditPost = () => {
+  const username = sessionStorage.getItem('username');
   const { id } = useParams();
   const navigate = useNavigate();
   const [postData, setPostData] = useState({
     boardTitle: '',
-    boardWriter: '',
+    boardWriter: username,
     boardContents: '',
-    
   });
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`/board/post/${id}`); // URL 수정
+        const response = await axios.get(`/board/post/${id}`);
         setPostData({
           boardTitle: response.data.boardTitle,
           boardWriter: response.data.boardWriter,
           boardContents: response.data.boardContents,
         });
       } catch (error) {
-        console.error('Failed to load post:', error.response || error); // 상세 에러 출력
+        console.error('Failed to load post:', error.response || error);
       }
     };
 
@@ -34,13 +36,17 @@ function EditPost() {
     setPostData({ ...postData, [name]: value });
   };
 
+  const handleEditorChange = (content) => {
+    setPostData({ ...postData, boardContents: content });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.put(`/board/update/${id}`, postData); // URL 확인
+      await axios.put(`/board/update/${id}`, postData);
       navigate(`/board/post/${id}`);
     } catch (error) {
-      console.error('Failed to update post:', error.response || error); // 상세 에러 출력
+      console.error('Failed to update post:', error.response || error);
     }
   };
 
@@ -70,11 +76,10 @@ function EditPost() {
         </div>
         <div className="input-group">
           <label htmlFor="boardContents">글 내용</label>
-          <textarea
+          <ReactQuill
             id="boardContents"
-            name="boardContents"
             value={postData.boardContents}
-            onChange={handleInputChange}
+            onChange={handleEditorChange}
           />
         </div>
         <div className="input-group">

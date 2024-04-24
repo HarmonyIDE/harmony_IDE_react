@@ -1,12 +1,12 @@
 import React, { useRef, useState } from "react";
 import { Editor } from "@monaco-editor/react";
-import LanguageSelector from "./buttons/LanguageSelectButton";
-import { CODE_SNIPPET } from "../constants";
+import LanguageSelector from "../buttons/LanguageSelectButton";
+import { CODE_SNIPPET } from "../../constants";
 import styled from "styled-components";
 import { ToastContainer } from "react-toastify";
-import RunButton from "./buttons/RunButton";
+import RunButton from "../buttons/RunButton";
 import Console from "./Console";
-import GptButton from "./buttons/GptButton";
+import GptButton from "../buttons/GptButton";
 
 const EditorConsoleBox = styled.div`
   position: relative;

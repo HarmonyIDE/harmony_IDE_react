@@ -10,17 +10,17 @@ import {
   ButtonBlock,
   StyledInput,
   UserImage
-} from "../lib/styles/MyPageStyle.js";
-import img from "../assets/CodeHarmonyLogo.png";
-import matrixCamera from '../assets/matrixCamera.png';
-import normalCamera from '../assets/nomalCamera.png';
+} from "../lib/styles/MyPageStyle";
+import img from "../lib/assets/CodeHarmonyLogo.png";
+import matrixCamera from '../lib/assets/matrixCamera.png';
+import normalCamera from '../lib/assets/nomalCamera.png';
 import styled from "styled-components";
-import NavigationBar from "../NavigationBar";
-import defaultImage from '../assets/defaultImg.png';
+import NavigationBar from "../components/Header/NavigationBar";
+import defaultImage from '../lib/assets/defaultImg.png';
 
 
 
-function MyPage() {
+const MyPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
