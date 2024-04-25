@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Outlet,
 } from "react-router-dom";
 import BackgroundVideo from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";

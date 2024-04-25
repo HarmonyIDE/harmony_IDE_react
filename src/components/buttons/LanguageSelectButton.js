@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LANGUAGE_VERSIONS } from "../../constants";
+import { LANGUAGE_VERSIONS, LANGUAGE_FILENAME } from "../../constants";
 import styled from "styled-components";
 
 const languages = Object.entries(LANGUAGE_VERSIONS);
@@ -7,6 +7,8 @@ const languages = Object.entries(LANGUAGE_VERSIONS);
 const Menu = styled.div`
   position: relative;
   display: inline-block;
+  width: 25%;
+  height: 60%;
 `;
 
 //Chakra-UI에서는 Menu 컴포넌트에 isLazy prop를 통해 지연 렌더링이 가능한데,
@@ -31,7 +33,8 @@ const Menu = styled.div`
 
 const LanguageButton = styled.button`
   box-sizing: border-box;
-  width: 150px;
+  width: 100%;
+  height: 100%;
   padding: 8px 16px;
   font-size: 16px;
   border-radius: 4px;
@@ -40,17 +43,30 @@ const LanguageButton = styled.button`
   align-items: center;
   justify-content: center;
   color: black;
-  background-image: ${({ open }) => (open ? "linear-gradient(to right, white, gray)" : "linear-gradient(to right, #0fc70e, #136107)")};
+  background-image: ${({ open }) =>
+    open
+      ? "linear-gradient(to right, white, gray)"
+      : "linear-gradient(to right, #0fc70e, #136107)"};
   border-inline: 2px solid #166c08;
   border-bottom: 2px solid #166c08;
   border-top: ${({ open }) => (open ? "none" : "2px solid #166c08")};
   border-radius: ${({ open }) => (open ? "0px 0px 4px 4px" : "4px")};
   &:hover {
     border-bottom: 2px solid #0fc70e;
-    border-inline: 2px solid #0fc70e;  
+    border-inline: 2px solid #0fc70e;
     border-top: ${({ open }) => (open ? "none" : "2px solid #0fc70e")};
   }
-  box-sizing: border-box;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px; 
+  }
+  @media (max-width: 280px) {
+    font-size: 0px;
+  }
+  outline: none;
 `;
 
 //리스트 토글링이 버튼 상단으로 되도록 bottom 값 설정
@@ -60,7 +76,7 @@ const LanguageList = styled.ul`
   z-index: 1;
   bottom: 50%;
   padding: 0px;
-  width: 150px;
+  width: 100%;
   border-inline: 2px solid #166c08;
   border-top: 2px solid #166c08;
   border-radius: 4px 4px 0px 0px;
@@ -83,7 +99,7 @@ const LanguageItem = styled.li`
   }
 `;
 
-const LanguageSelectButton = ({ language, onSelect, darkmode}) => {
+const LanguageSelectButton = ({ language, onSelect, darkmode }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -91,31 +107,36 @@ const LanguageSelectButton = ({ language, onSelect, darkmode}) => {
   };
 
   return (
-      <Menu>
-        {/* 렌더링 지연 처리해주지 않으면 첫 렌더링에서 경고*/}
-        <LanguageButton onClick={toggleDropdown} open={isOpen}>
-          {language}
-        </LanguageButton>
-        <LanguageList open={isOpen} darkmode={darkmode}>
-          {languages.map(([lang, version]) => (
-            <LanguageItem
-              key={lang}
-              isSelected={lang === language}
-              darkmode={darkmode}
-              onClick={() => {
-                onSelect(lang);
-                setIsOpen(!isOpen);
+    <Menu>
+      {/* 렌더링 지연 처리해주지 않으면 첫 렌더링에서 경고*/}
+      <LanguageButton onClick={toggleDropdown} open={isOpen}>
+        {language}
+      </LanguageButton>
+      <LanguageList open={isOpen} darkmode={darkmode}>
+        {languages.map(([lang, version]) => (
+          <LanguageItem
+            key={lang}
+            isSelected={lang === language}
+            darkmode={darkmode}
+            onClick={() => {
+              onSelect(lang);
+              setIsOpen(!isOpen);
+            }}
+          >
+            {LANGUAGE_FILENAME[lang]}
+            &nbsp;
+            <span
+              style={{
+                color: darkmode ? "#BFC2BF" : "black",
+                fontSize: "small",
               }}
             >
-              {lang}
-              &nbsp;
-              <span style={{ color: darkmode? "#BFC2BF" : "black", fontSize: "small" }}>
-                {version}
-              </span>
-            </LanguageItem>
-          ))}
-        </LanguageList>
-      </Menu>
+              {version}
+            </span>
+          </LanguageItem>
+        ))}
+      </LanguageList>
+    </Menu>
   );
 };
 

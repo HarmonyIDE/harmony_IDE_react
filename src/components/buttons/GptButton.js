@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { css, keyframes } from "styled-components";
-import { toast } from "react-toastify";
 import { OpenAI } from "openai";
 
 const rotate = keyframes`
@@ -14,7 +13,8 @@ const rotate = keyframes`
 
 const Button = styled.button`
   box-sizing: border-box;
-  width: 150px;
+  width: 25%;
+  height: 60%;
   padding: 8px 16px;
   font-size: 16px;
   border-radius: 4px;
@@ -50,14 +50,14 @@ const Button = styled.button`
 `;
 
 const GptIcon = styled.img`
-  width: 20%;
-  height: 20%;
+  width: 28%;
+  height: 100%;
 `;
 
 const GptButton = ({ editorRef, setGptOutput, gptLoading, setGptLoading }) => {
   const openai = new OpenAI({
     organization: "org-efXAZdAhgjdSpOnxMMM3x58I",
-    apiKey: "sk-proj-HMQpFuyciRamgotxYrPjT3BlbkFJ27DkghX1ViZw3rr6ABj8",
+    apiKey: "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",
     dangerouslyAllowBrowser: true,
   });
   const runCode = async () => {

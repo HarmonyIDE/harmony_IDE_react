@@ -14,7 +14,6 @@ import {
 import img from "../lib/assets/CodeHarmonyLogo.png";
 import matrixCamera from "../lib/assets/matrixCamera.png";
 import normalCamera from "../lib/assets/nomalCamera.png";
-import styled from "styled-components";
 import NavigationBar from "../components/Header/NavigationBar";
 import defaultImage from "../lib/assets/defaultImg.png";
 
@@ -24,7 +23,8 @@ const MyPage = ({ darkmode, setDarkmode }) => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [profileImage, setProfileImage] = useState("default");
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageToSend, setProfileImageToSend] = useState(null);
   const navigate = useNavigate();
   const cameraImage = darkmode ? matrixCamera : normalCamera;
   const [oldPassword, setOldPassword] = useState("");
@@ -34,41 +34,35 @@ const MyPage = ({ darkmode, setDarkmode }) => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("Authorization");
-
-        let response = null;
-
-        if (token) {
-          response = await axios.get("http://localhost:8080/user", {
-            headers: {
-              Authorization: `${token}`,
-            },
-          });
-        } else {
-          response = await axios.get("http://localhost:8080/user", {
-            withCredentials: true,
-          });
-        }
+        const response = await axios.get("http://localhost:8080/user", {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
         console.log("Response:", response.data);
         const { name, email, username, image } = response.data;
         setName(name);
         setEmail(email);
         setUserId(username);
-        setProfileImage(getImagePath(image));
-        console.log(image);
+        image === "default"
+          ? setProfileImage(defaultImage)
+          : setProfileImage(image);
       } catch (error) {
         console.error("There was an error!", error);
       }
     };
     fetchData();
   }, []);
+
   //이미지 체크
-  const getImagePath = (image) => {
-    if (image !== "default") {
-      return image;
-    } else {
-      return defaultImage;
-    }
-  };
+  // const getImagePath = (image) => {
+  //   if (image === "default") {
+  //     return defaultImage;
+  //   } else {
+  //     setProfileImage(image);
+  //     return profileImage;
+  //   }
+  // };
   //개인정보 수정 부분
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,9 +80,7 @@ const MyPage = ({ darkmode, setDarkmode }) => {
       "joinData",
       new Blob([jsonData], { type: "application/json" })
     );
-
-    userData.append("image", profileImage);
-
+    userData.append("image", profileImageToSend);
     try {
       const token = localStorage.getItem("Authorization");
       const response = await axios.post(
@@ -115,12 +107,21 @@ const MyPage = ({ darkmode, setDarkmode }) => {
   };
 
   const handleBack = async (e) => {
-    navigate("/main");
+    navigate("/");
   };
 
   const handleChangeImage = async (e) => {
+    e.preventDefault();
+
     const selectedImage = e.target.files[0];
-    setProfileImage(selectedImage);
+    console.log(selectedImage);
+    if( selectedImage !== undefined) {
+      setProfileImageToSend((selectedImage));
+      setProfileImage(URL.createObjectURL(selectedImage));
+    } else {
+      setProfileImageToSend(null)
+      setProfileImage(null);
+    };
   };
   return (
     <BackGround darkmode={darkmode}>
@@ -138,6 +139,29 @@ const MyPage = ({ darkmode, setDarkmode }) => {
           }}
         >
           <label htmlFor="profileimage" style={{ cursor: "pointer" }}>
+            {/* {profileImage ? (
+              <img
+                style={{
+                  background: "white",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "25%",
+                }}
+                src= {URL.createObjectURL(profileImage)}
+                alt="profileimage"
+              />
+            ) : (
+              <img
+                style={{
+                  background: "white",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "25%",
+                }}
+                src={cameraImage}
+                alt="profileimage"
+              />
+            )} */}
             <img
               style={{
                 background: "white",
@@ -145,7 +169,9 @@ const MyPage = ({ darkmode, setDarkmode }) => {
                 height: "100%",
                 borderRadius: "25%",
               }}
-              src={profileImage ? profileImage : cameraImage}
+              src={
+                profileImage ? profileImage : defaultImage
+              }
               alt="profileimage"
             />
           </label>

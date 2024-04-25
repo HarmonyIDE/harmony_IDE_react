@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { LANGUAGE_VERSIONS } from "../../constants";
 
@@ -15,7 +14,8 @@ const rotate = keyframes`
 
 const Button = styled.button`
   box-sizing: border-box;
-  width: 150px;
+  width: 25%;
+  height: 60%;
   padding: 8px 16px;
   font-size: 16px;
   border-radius: 4px;
@@ -50,8 +50,8 @@ const Button = styled.button`
 `;
 
 const RunIcon = styled.img`
-  width: 20%;
-  height: 20%;
+  width: 100%;
+  height: 100%;
 `;
 
 const RunButton = ({
@@ -79,9 +79,6 @@ const RunButton = ({
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) {
-      toast.error("No source code provided.", {
-        position: "top-right",
-      });
       return;
     }
 
@@ -92,9 +89,7 @@ const RunButton = ({
       result.stderr ? setIsError(true) : setIsError(false);
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred while executing the code.", {
-        position: "top-right",
-      });
+
     } finally {
       setCompileLoading(false);
     }
