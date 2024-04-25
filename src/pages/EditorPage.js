@@ -48,6 +48,7 @@ const EditorPage = ({darkmode, setDarkmode}) => {
   const [language, setLanguage] = useState("javascript");
   const [code, setCode] = useState(CODE_SNIPPET[language]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [webSocketUrl, setWebSocketUrl] = useState("");
 
   const handleModalOpen = (e) => {
     setIsModalOpen(prev => !prev);
@@ -82,6 +83,25 @@ const EditorPage = ({darkmode, setDarkmode}) => {
     fetchData();
   }, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
+  //서버로부터 ws 주소 받아오는 코드
+  useEffect(() => {
+    const fetchWebSocketUrl = async () => {
+      let response = null;
+      const token = localStorage.getItem("Authorization");
+      try {
+          response = await axios.post("http://localhost:8080/get/wsUrl", {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+        setWebSocketUrl(response.data);
+      } catch (error) {
+        console.error('Failed to fetch the WebSocket URL: ', error);
+      }
+    };
+    fetchWebSocketUrl();
+  }, []);
+  
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <NavigationBar
@@ -111,7 +131,7 @@ const EditorPage = ({darkmode, setDarkmode}) => {
             alt="chatbutton"
           />
         </ModalButton>
-        <ChatModal isOpen={isModalOpen} />
+        <ChatModal isOpen={isModalOpen} webSocketUrl={webSocketUrl}/>
       </MainBox>
     </div>
   );

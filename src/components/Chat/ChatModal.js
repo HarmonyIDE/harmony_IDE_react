@@ -127,7 +127,7 @@ const ActionButton = styled.button`
   outline: none;
 `;
 
-const ChatModal = ({ isOpen }) => {
+const ChatModal = ({ isOpen,webSocketUrl }) => {
   const username = sessionStorage.getItem("username")
   const [messageStack, setMessageStack] = useState([
     { user: "me", message: "hi" },
@@ -143,34 +143,40 @@ const ChatModal = ({ isOpen }) => {
   const [scrollIndex, setScrollIndex] = useState(0);
   // 검색창 포커스되면 스타일 변화
   const [focused, setFocused] = useState(false);
-
+  const websocket = useRef(null)
   const refWhoHaveScroll = useRef(null);
-  const ws = new WebSocket("ws://localhost:8080/ws/chat");
+  let ws = ""
 
-  useEffect(() => {
-    ws.onopen = () => {
-      console.log("Connected to WebSocket server");
-    };
+    if (webSocketUrl !== ""){
+      ws = new WebSocket(webSocketUrl);
+    }else{
+      ws = new WebSocket("ws://localhost:8080/ws/chat");
+    }
 
-    ws.onmessage = (e) => {
-      try {
-        const data = JSON.parse(e.data);
-        setMessageStack((prev) => [
-          ...prev,
-          { user: data.user, message: data.message },
-        ]);
-      } catch (err) {
-        console.error("Error parsing JSON:", err);
-      }
-      //받아오는 데이터가 json 형식이고, data에 username이 포함되어 있으면 처리해주면 됨
-    };
+    useEffect(() => {
+        ws.onopen = () => {
+          console.log("Connected to WebSocket server");
+        };
 
-    return () => {
-      if (ws) {
-        ws.close();
-      }
-    };
-  }, [messageStack, searchQuery, ws]);
+        ws.onmessage = (e) => {
+          try {
+            const data = JSON.parse(e.data);
+            setMessageStack((prev) => [
+              ...prev,
+              { user: data.user, message: data.message },
+            ]);
+          } catch (err) {
+            console.error("Error parsing JSON:", err);
+          }
+          //받아오는 데이터가 json 형식이고, data에 username이 포함되어 있으면 처리해주면 됨
+        };
+
+      return () => {
+        if (ws) {
+          ws.close();
+        }
+      };
+    }, [messageStack, searchQuery, ws]);
 
   const scrollToBottom = () => {
     refWhoHaveScroll.current &&
@@ -192,33 +198,6 @@ const ChatModal = ({ isOpen }) => {
       setMessageInput("");
     }
   };
-
-  //   const handleSearch = async () => {
-  //     setSearchResultsIndex((prev) => [
-  //       ...prev,
-  //       messageStack
-  //         .map((obj, index) => (obj.message === searchQuery ? index : null))
-  //         .filter((index) => index !== null),
-  //     ]);
-  //     //   if (searchQuery.trim() !== "") {
-  //     //     const response = await fetch(
-  //     //       `http://localhost:8080/search?query=${encodeURIComponent(searchQuery)}`,
-  //     //       {
-  //     //         method: "GET",
-  //     //         headers: {
-  //     //           "Content-Type": "application/json",
-  //     //         },
-  //     //       }
-  //     //     );
-  //     //     const results = await response.json();
-  //     //     setSearchResults(results); // 검색 결과 상태 업데이트
-  //     //     setSearchQuery(""); // 검색 필드 초기화
-  //     //   }
-  //     scrollToSearched();
-  //     setScrollIndex((prev) =>
-  //       prev === searchResultsIndex.length - 1 ? 1 : prev + 1
-  //     );
-  //   };
   const handleSearch = async () => {
     const searchIndexes = messageStack
       .map((obj, index) => (obj.message.includes(searchQuery) ? index : null))

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { toast } from "react-toastify";
 import { OpenAI } from "openai";
+import axios from "axios";
 
 const rotate = keyframes`
   from {
@@ -55,9 +56,30 @@ const GptIcon = styled.img`
 `;
 
 const GptButton = ({ editorRef, setGptOutput, gptLoading, setGptLoading }) => {
+  const [gptKey, setGptKey] = useState("");
+//서버로부터 지피티 키 받아오기
+useEffect(() => {
+  const fetchGptKeyUrl = async () => {
+    let response = null;
+    const token = localStorage.getItem("Authorization");
+    try {
+        response = await axios.post("http://localhost:8080/get/gptKey", {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+        // console.log("here!!!!@@ - ",response)
+        setGptKey(response.data);
+    } catch (error) {
+      console.error('Failed to fetch the WebSocket URL: ', error);
+    }
+  };
+  fetchGptKeyUrl();
+}, []);
+
   const openai = new OpenAI({
     organization: "org-efXAZdAhgjdSpOnxMMM3x58I",
-    apiKey: "sk-proj-HMQpFuyciRamgotxYrPjT3BlbkFJ27DkghX1ViZw3rr6ABj8",
+    apiKey: gptKey,
     dangerouslyAllowBrowser: true,
   });
   const runCode = async () => {
