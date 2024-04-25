@@ -34,17 +34,27 @@ const MyPage = ({ darkmode, setDarkmode }) => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("Authorization");
-        const response = await axios.get("http://localhost:8080/user", {
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
+
+        let response = null;
+
+        if (token) {
+          response = await axios.get("http://localhost:8080/user", {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+        } else {
+          response = await axios.get("http://localhost:8080/user", {
+            withCredentials: true,
+          });
+        }
         console.log("Response:", response.data);
         const { name, email, username, image } = response.data;
         setName(name);
         setEmail(email);
         setUserId(username);
         setProfileImage(getImagePath(image));
+        console.log(image);
       } catch (error) {
         console.error("There was an error!", error);
       }
@@ -53,11 +63,10 @@ const MyPage = ({ darkmode, setDarkmode }) => {
   }, []);
   //이미지 체크
   const getImagePath = (image) => {
-    if (image === "default") {
-      return defaultImage;
+    if (image !== "default") {
+      return image;
     } else {
-      setProfileImage(image);
-      return profileImage;
+      return defaultImage;
     }
   };
   //개인정보 수정 부분
@@ -106,7 +115,7 @@ const MyPage = ({ darkmode, setDarkmode }) => {
   };
 
   const handleBack = async (e) => {
-    navigate("/");
+    navigate("/main");
   };
 
   const handleChangeImage = async (e) => {
@@ -119,7 +128,7 @@ const MyPage = ({ darkmode, setDarkmode }) => {
       <div style={{ zIndex: "1", height: "20%" }}>
         <Logo src={img} alt="로고" />
       </div>
-      <UserInfoForm style={{height: "72%"}}onSubmit={handleSubmit}>
+      <UserInfoForm style={{ height: "72%" }} onSubmit={handleSubmit}>
         <Block
           style={{
             width: "15%",

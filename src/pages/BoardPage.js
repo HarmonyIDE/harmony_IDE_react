@@ -86,26 +86,26 @@ const BoardPage = ({ darkmode, setDarkmode }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const response = await axios.get(`/board/paging?page=${currentPage}`);
-  //       if (Array.isArray(response.data.posts)) {
-  //         setPosts(response.data.posts);
-  //         setTotalPages(response.data.totalPages);
-  //       } else {
-  //         throw new Error("Data is not an array");
-  //       }
-  //     } catch (error) {
-  //       setError("Failed to fetch posts");
-  //       setPosts([]);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(`/board/paging?page=${currentPage}`);
+        if (Array.isArray(response.data.posts)) {
+          setPosts(response.data.posts);
+          setTotalPages(response.data.totalPages);
+        } else {
+          throw new Error("Data is not an array");
+        }
+      } catch (error) {
+        setError("Failed to fetch posts");
+        setPosts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchPosts();
-  // }, [currentPage]);
+    fetchPosts();
+  }, [currentPage]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -113,8 +113,8 @@ const BoardPage = ({ darkmode, setDarkmode }) => {
     }
   };
 
-  // if (loading) return <div>Loading...</div>;
-  // if (error) return <div>{error}</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <BackGround darkmode={darkmode}>
@@ -144,10 +144,18 @@ const BoardPage = ({ darkmode, setDarkmode }) => {
               </tr>
             ))
           ) : (
-            <tr>
-              <td colSpan="5">No posts found</td>
-            </tr>
+            <tr></tr>
           )}
+          {posts.length < 10 &&
+            Array.from({ length: 10 - posts.length }).map((_, index) => (
+              <tr key={`dummy_${index}`}>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            ))}
         </tbody>
       </BoardTable>
       <Pagination>
