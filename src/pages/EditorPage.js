@@ -115,6 +115,6 @@ const EditorPage = ({darkmode, setDarkmode}) => {
       </MainBox>
     </div>
   );
-}
+};
 
 export default EditorPage;
