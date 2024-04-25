@@ -89,7 +89,7 @@ const BoardPage = ({ darkmode, setDarkmode }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`/board/paging?page=${currentPage}`);
+        const response = await axios.get(`/api/board/paging?page=${currentPage}`);
         if (Array.isArray(response.data.posts)) {
           setPosts(response.data.posts);
           setTotalPages(response.data.totalPages);

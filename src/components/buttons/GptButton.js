@@ -63,12 +63,11 @@ useEffect(() => {
     let response = null;
     const token = localStorage.getItem("Authorization");
     try {
-        response = await axios.post("http://localhost:8080/get/gptKey", {
+        response = await axios.post("/api/get/gptKey", {
           headers: {
             Authorization: `${token}`,
           },
         });
-        // console.log("here!!!!@@ - ",response)
         setGptKey(response.data);
     } catch (error) {
       console.error('Failed to fetch the WebSocket URL: ', error);
@@ -76,6 +75,7 @@ useEffect(() => {
   };
   fetchGptKeyUrl();
 }, []);
+console.log("@@@@@gpt - ",gptKey)
 
   const openai = new OpenAI({
     organization: "org-efXAZdAhgjdSpOnxMMM3x58I",

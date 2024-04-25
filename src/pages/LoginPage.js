@@ -105,7 +105,7 @@ const LoginPage = () => {
     try {
       const qs = require("qs");
       const response = await axios.post(
-        "http://localhost:8080/login",
+        "/api/login",
         qs.stringify({
           username: userId,
           password: password,
@@ -141,17 +141,17 @@ const LoginPage = () => {
 
   const loginGoogle = () => {
     // navigate("http://localhost:8080/oauth2/authorization/google");
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    window.location.href = "/api/oauth2/authorization/google";
   };
 
   const loginKakao = () => {
     // navigate("http://localhost:8080/oauth2/authorization/google");
-    window.location.href = "http://localhost:8080/oauth2/authorization/kakao";
+    window.location.href = "/api/oauth2/authorization/kakao";
   };
 
   const loginNaver = () => {
     // navigate("http://localhost:8080/oauth2/authorization/google");
-    window.location.href = "http://localhost:8080/oauth2/authorization/naver";
+    window.location.href = "/api/oauth2/authorization/naver";
   };
 
   return (

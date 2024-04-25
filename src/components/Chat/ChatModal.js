@@ -152,6 +152,7 @@ const ChatModal = ({ isOpen,webSocketUrl }) => {
     }else{
       ws = new WebSocket("ws://localhost:8080/ws/chat");
     }
+    console.log("@@@@wsurl -",webSocketUrl)
 
     useEffect(() => {
         ws.onopen = () => {
@@ -198,6 +199,33 @@ const ChatModal = ({ isOpen,webSocketUrl }) => {
       setMessageInput("");
     }
   };
+
+  //   const handleSearch = async () => {
+  //     setSearchResultsIndex((prev) => [
+  //       ...prev,
+  //       messageStack
+  //         .map((obj, index) => (obj.message === searchQuery ? index : null))
+  //         .filter((index) => index !== null),
+  //     ]);
+  //     //   if (searchQuery.trim() !== "") {
+  //     //     const response = await fetch(
+  //     //       `http://localhost:8080/search?query=${encodeURIComponent(searchQuery)}`,
+  //     //       {
+  //     //         method: "GET",
+  //     //         headers: {
+  //     //           "Content-Type": "application/json",
+  //     //         },
+  //     //       }
+  //     //     );
+  //     //     const results = await response.json();
+  //     //     setSearchResults(results); // 검색 결과 상태 업데이트
+  //     //     setSearchQuery(""); // 검색 필드 초기화
+  //     //   }
+  //     scrollToSearched();
+  //     setScrollIndex((prev) =>
+  //       prev === searchResultsIndex.length - 1 ? 1 : prev + 1
+  //     );
+  //   };
   const handleSearch = async () => {
     const searchIndexes = messageStack
       .map((obj, index) => (obj.message.includes(searchQuery) ? index : null))

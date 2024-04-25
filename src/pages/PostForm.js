@@ -60,7 +60,7 @@ const PostForm = () => {
     event.preventDefault();
 
     try {
-      await axios.post("/board/save", postData);
+      await axios.post("/api/board/save", postData);
       navigate("/board"); // 성공적으로 게시글을 저장한 후 게시판 페이지로 리다이렉트
     } catch (error) {
       console.error("Failed to post data:", error);

@@ -88,7 +88,7 @@ const PostDetail = () =>  {
   useEffect(() => {
     const fetchPostAndComments = async () => {
       try {
-        const response = await axios.get(`/board/post/${id}`);
+        const response = await axios.get(`/api/board/post/${id}`);
         setPost(response.data);
         const commentsResponse = await axios.get(`/comment/list/${id}`);
         setComments(commentsResponse.data);
@@ -102,7 +102,7 @@ const PostDetail = () =>  {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/board/delete/${id}`);
+      await axios.delete(`/api/board/delete/${id}`);
       navigate('/board');
     } catch (error) {
       console.error('Failed to delete the post:', error);
@@ -112,7 +112,7 @@ const PostDetail = () =>  {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/comment/save', {
+      await axios.post('/api/comment/save', {
         username,
         commentContents,
         boardId: id

@@ -71,7 +71,7 @@ const SignUpPage = () => {
 
     try {
       //if (password !== passwordCheck) throw new Error();
-      const response = await axios.post("http://localhost:8080/join", userData);
+      const response = await axios.post("/api/join", userData);
 
       setUserId("");
       setPassword("");

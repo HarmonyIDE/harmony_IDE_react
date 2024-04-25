@@ -17,7 +17,7 @@ const EditPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`/board/post/${id}`);
+        const response = await axios.get(`/api/board/post/${id}`);
         setPostData({
           boardTitle: response.data.boardTitle,
           boardWriter: response.data.boardWriter,
@@ -43,7 +43,7 @@ const EditPost = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.put(`/board/update/${id}`, postData);
+      await axios.put(`/api/board/update/${id}`, postData);
       navigate(`/board/post/${id}`);
     } catch (error) {
       console.error('Failed to update post:', error.response || error);

@@ -38,13 +38,13 @@ const MyPage = ({ darkmode, setDarkmode }) => {
         let response = null;
 
         if (token) {
-          response = await axios.get("http://localhost:8080/user", {
+          response = await axios.get("/api/user", {
             headers: {
               Authorization: `${token}`,
             },
           });
         } else {
-          response = await axios.get("http://localhost:8080/user", {
+          response = await axios.get("/api/user", {
             withCredentials: true,
           });
         }
@@ -92,7 +92,7 @@ const MyPage = ({ darkmode, setDarkmode }) => {
     try {
       const token = localStorage.getItem("Authorization");
       const response = await axios.post(
-        `http://localhost:8080/memberInfo`,
+        `/api/memberInfo`,
         userData,
         {
           headers: {

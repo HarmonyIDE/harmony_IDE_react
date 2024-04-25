@@ -63,14 +63,14 @@ const EditorPage = ({darkmode, setDarkmode}) => {
         let response = null;
         // 일반 로그인 시 데이터 요청(Header로 인증)
         if (token) {
-          response = await axios.get("http://localhost:8080/user", {
+          response = await axios.get("/api/user", {
             headers: {
               Authorization: `${token}`,
             },
           });
         } else {
           // 소셜 로그인 시 데이터 요청(Cookie로 인증)
-          response = await axios.get("http://localhost:8080/user", {
+          response = await axios.get("/api/user", {
             withCredentials: true,
           });
         }
@@ -89,7 +89,7 @@ const EditorPage = ({darkmode, setDarkmode}) => {
       let response = null;
       const token = localStorage.getItem("Authorization");
       try {
-          response = await axios.post("http://localhost:8080/get/wsUrl", {
+          response = await axios.post("/api/get/wsUrl", {
             headers: {
               Authorization: `${token}`,
             },
