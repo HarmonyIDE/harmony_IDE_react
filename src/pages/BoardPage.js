@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import NavigationBar from "../components/Header/NavigationBar";
-import { set } from "firebase/database";
 import { BackGround } from "../lib/styles/MyPageStyle";
 
 const CreatePostButton = styled(Link)`
@@ -80,7 +79,7 @@ const Pagination = styled.div`
   }
 `;
 
-const BoardPage = ({darkmode, setDarkmode}) => {
+const BoardPage = ({ darkmode, setDarkmode }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

@@ -87,6 +87,8 @@ const LoginPage = () => {
       setUserId(storedUserId);
       setPassword(storedPassword);
     }
+
+    localStorage.removeItem("Authorization");
   }, []);
 
   const handleLogin = async (e) => {
@@ -95,6 +97,9 @@ const LoginPage = () => {
     if (keepLogin) {
       localStorage.setItem("userId", userId);
       localStorage.setItem("password", password);
+    } else {
+      localStorage.removeItem("userId");
+      localStorage.removeItem("password");
     }
 
     try {
