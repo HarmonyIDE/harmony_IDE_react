@@ -146,15 +146,18 @@ const ChatModal = ({ isOpen,webSocketUrl }) => {
   const websocket = useRef(null)
   const refWhoHaveScroll = useRef(null);
   let ws = ""
+  
 
-    if (webSocketUrl !== ""){
-      ws = new WebSocket(webSocketUrl);
-    }else{
-      ws = new WebSocket("ws://localhost:8080/ws/chat");
-    }
-    console.log("@@@@wsurl -",webSocketUrl)
+  console.log("@@@@wsurl -",webSocketUrl)
 
+  if (webSocketUrl && webSocketUrl !== "") {
+    ws = new WebSocket(webSocketUrl);
+  } else {
+    console.error("Invalid WebSocket URL");
+  }
+  
     useEffect(() => {
+      const timer = setTimeout(() => {
         ws.onopen = () => {
           console.log("Connected to WebSocket server");
         };
@@ -177,6 +180,9 @@ const ChatModal = ({ isOpen,webSocketUrl }) => {
           ws.close();
         }
       };
+    }, 5000); // 5초 후 웹소켓 콜
+  
+    return () => clearTimeout(timer); 
     }, [messageStack, searchQuery, ws]);
 
   const scrollToBottom = () => {
@@ -259,7 +265,7 @@ const ChatModal = ({ isOpen,webSocketUrl }) => {
   const handleSearchBarFocusout = () => {
     setFocused(false);
   };
-
+  
   return (
     <ModalBox isOpen={isOpen}>
       <InputBar

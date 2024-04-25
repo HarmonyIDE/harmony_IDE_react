@@ -89,12 +89,12 @@ const EditorPage = ({darkmode, setDarkmode}) => {
       let response = null;
       const token = localStorage.getItem("Authorization");
       try {
-          response = await axios.post("/api/get/wsUrl", {
+          response = await axios.post("/api/get/wsUrl",{}, {
             headers: {
               Authorization: `${token}`,
             },
           });
-        setWebSocketUrl(response.data);
+        setWebSocketUrl(response.data.url);
       } catch (error) {
         console.error('Failed to fetch the WebSocket URL: ', error);
       }

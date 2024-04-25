@@ -68,14 +68,16 @@ useEffect(() => {
             Authorization: `${token}`,
           },
         });
-        setGptKey(response.data);
+        setGptKey(response.data.key);
+        console.log(
+          "sadasdasd@@",response);
     } catch (error) {
       console.error('Failed to fetch the WebSocket URL: ', error);
     }
   };
   fetchGptKeyUrl();
 }, []);
-console.log("@@@@@gpt - ",gptKey)
+// console.log("@@@@@gpt - ",gptKey)
 
   const openai = new OpenAI({
     organization: "org-efXAZdAhgjdSpOnxMMM3x58I",
